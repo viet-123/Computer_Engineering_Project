@@ -9,7 +9,6 @@ export default function ProfileInfo(props) {
       // const tempBirth = user.dateofbirth.split('/');
       // const [birth, setBirth] = useState([tempBirth[0], tempBirth[1], tempBirth[2]]);
       const [birth, setBirth] = useState(['9', '9', '2001']);
-      console.log(user);
       const handelSex = (e) => {
             // setSex(e);
       };
@@ -229,14 +228,14 @@ export default function ProfileInfo(props) {
                               </div>
                               <input type="file" className="hidden" />
                               <button className="text-[#555] border bg-white shadow-min min-w-[70px] px-[20px] h-[40px] max-w-[220px] relative hover:bg-blur-grey">
-                                    Chọn ảnh
+                                    Choose image
                               </button>
                               <div className="mt-[14px] ">
                                     <div className="text-[#999] text-[14px] leading-5">
-                                          Dung lượng file tối đa 1 MB
+                                          Maximum file size: 1 MB
                                     </div>
                                     <div className="text-[#999] text-[14px] leading-5">
-                                          Định dạng: .JPEG, .PNG
+                                          Format: .JPEG, .PNG
                                     </div>
                               </div>
                         </div>

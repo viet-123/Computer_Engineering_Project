@@ -39,7 +39,7 @@ export default function LeftSide(props) {
       return (
             <>
                   <div
-                        className={`leftside bg-white lg:w-1/6 w-[200px] min-h-full pt-[20px] + ${
+                        className={`leftside bg-white lg:w-1/6 min-w-[250px] w-[200px] min-h-full pt-[20px] + ${
                               list ? 'block ' : 'hidden'
                         }`}
                   >

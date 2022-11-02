@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SearchIcon } from '../Icon/Icon';
+import Modal from '../Modal/Modal';
 export default function Table() {
+      const [showModal, setShowModal] = useState(false);
+      const [value, setValue] = useState('');
+
       const userData = [
             {
                   firstname: undefined,
@@ -12,11 +16,12 @@ export default function Table() {
                   firstname: 'Nguyen Quoc',
                   lastname: 'Hung',
                   respone: 'Accept',
-                  timeaccess: 'Thurday, December 30, 2021 8:46 PM',
+                  timeaccess: 'Thurday, December 30, 2022 9:46 PM',
             },
       ];
+
       return (
-            <div className="px-[10px] py-[20px] rounded-xl bg-white">
+            <div className="shadow-3xl px-[10px] py-[20px] rounded-xl bg-white">
                   <table className="min-w-full bg-white ">
                         <thead className="border-collapse border">
                               <tr>
@@ -66,7 +71,15 @@ export default function Table() {
                                                       </td>
                                                       <td className="w-[20%] border  text-center items-center py-[15px] px-2 text-sm">
                                                             <div className="w-full flex justify-center ">
-                                                                  <div className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full ">
+                                                                  <div
+                                                                        className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full "
+                                                                        onClick={() => {
+                                                                              setValue(
+                                                                                    user.timeaccess,
+                                                                              );
+                                                                              setShowModal(true);
+                                                                        }}
+                                                                  >
                                                                         <SearchIcon
                                                                               fill={'white'}
                                                                               width={'16px'}
@@ -101,7 +114,15 @@ export default function Table() {
                                                       </td>
                                                       <td className="w-[20%] border text-center py-[15px] px-2 text-sm">
                                                             <div className="w-full flex justify-center ">
-                                                                  <div className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full ">
+                                                                  <div
+                                                                        className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full "
+                                                                        onClick={() => {
+                                                                              setValue(
+                                                                                    user.timeaccess,
+                                                                              );
+                                                                              setShowModal(true);
+                                                                        }}
+                                                                  >
                                                                         <SearchIcon
                                                                               fill={'white'}
                                                                               width={'16px'}
@@ -116,6 +137,7 @@ export default function Table() {
                               })}
                         </tbody>
                   </table>
+                  <Modal value={value} show={showModal} setShow={setShowModal} />
             </div>
       );
 }

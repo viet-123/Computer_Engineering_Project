@@ -144,11 +144,12 @@ export const StatisIcon = ({ width = '24px', height = '24px', className, fill })
       );
 };
 
-export const PeopleIcon = ({ width = '24px', height = '24px', className, fill }) => {
+export const PeopleIcon = ({ width = '555px', height = '289px', className, fill }) => {
       return (
             <svg
-                  width="555"
-                  height="289"
+                  width={width === 0 ? '555px' : width}
+                  height={height === 0 ? '289px' : height}
+                  className={className}
                   viewBox="0 0 555 289"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

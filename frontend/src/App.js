@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DefaultLayout from './component/DefaultLayout';
 import { publicRoutes } from './routes';
-import { Chart } from './component/Chart/Chart';
+import AccountItem from './component/AccoutnItem/AccountItem';
 function App() {
       return (
             <>
@@ -32,7 +32,7 @@ function App() {
                                                 />
                                           );
                                     })}
-                                    <Route path="/map" element={<Chart />}></Route>
+                                    <Route path="/map" element={<AccountItem />}></Route>
                               </Routes>
                         </Router>
                   </div>
