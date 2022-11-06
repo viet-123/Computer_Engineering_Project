@@ -35,6 +35,12 @@ export default function Signup() {
                                     placeholder="Password"
                                     ref={email}
                               />
+                              <Input
+                                    type="password"
+                                    label="Confirm Password"
+                                    placeholder="Confirm Password"
+                                    ref={email}
+                              />
                               <div className="mb-[20px] ">
                                     <div className="pl-[24px] min-h-[26px] ">
                                           <input

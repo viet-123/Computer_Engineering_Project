@@ -140,13 +140,13 @@ export default function ProfileInfo(props) {
                                                       <div
                                                             className=""
                                                             onClick={() => {
-                                                                  handelSex('Nam');
+                                                                  handelSex('Male');
                                                             }}
                                                       >
                                                             <Radio
                                                                   value="first"
                                                                   selected={selected}
-                                                                  text="Nam"
+                                                                  text="Male"
                                                                   onChange={setSelected}
                                                                   className="mr-[20px]"
                                                             />
@@ -154,13 +154,13 @@ export default function ProfileInfo(props) {
                                                       <div
                                                             className=""
                                                             onClick={() => {
-                                                                  handelSex('Nữ');
+                                                                  handelSex('Female');
                                                             }}
                                                       >
                                                             <Radio
                                                                   value="second"
                                                                   selected={selected}
-                                                                  text="Nữ"
+                                                                  text="Female"
                                                                   onChange={setSelected}
                                                                   className="mr-[20px]"
                                                             />
@@ -168,13 +168,13 @@ export default function ProfileInfo(props) {
                                                       <div
                                                             className=""
                                                             onClick={() => {
-                                                                  handelSex('Khác');
+                                                                  handelSex('Other');
                                                             }}
                                                       >
                                                             <Radio
                                                                   value="third"
                                                                   selected={selected}
-                                                                  text="Khác"
+                                                                  text="Other"
                                                                   onChange={setSelected}
                                                                   className="mr-[20px]"
                                                             />

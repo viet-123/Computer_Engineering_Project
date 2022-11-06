@@ -2,37 +2,60 @@ import './App.css';
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DefaultLayout from './component/DefaultLayout';
-import { publicRoutes } from './routes';
-import AccountItem from './component/AccoutnItem/AccountItem';
+import { publicRoutes, privateRoutes } from './routes';
+import { useSelector } from 'react-redux';
 function App() {
+      const currentUser = useSelector((state) => state.user);
       return (
             <>
                   <div className="App">
                         <Router>
                               <Routes>
-                                    {publicRoutes.map((route, index) => {
-                                          const Page = route.component;
-                                          let Layout = DefaultLayout;
+                                    {currentUser.user
+                                          ? publicRoutes.map((route, index) => {
+                                                  const Page = route.component;
+                                                  let Layout = DefaultLayout;
 
-                                          if (route.layout) {
-                                                Layout = route.layout;
-                                          } else if (route.layout === null) {
-                                                Layout = Fragment;
-                                          }
+                                                  if (route.layout) {
+                                                        Layout = route.layout;
+                                                  } else if (route.layout === null) {
+                                                        Layout = Fragment;
+                                                  }
 
-                                          return (
-                                                <Route
-                                                      key={index}
-                                                      path={route.path}
-                                                      element={
-                                                            <Layout>
-                                                                  <Page />
-                                                            </Layout>
-                                                      }
-                                                />
-                                          );
-                                    })}
-                                    <Route path="/map" element={<AccountItem />}></Route>
+                                                  return (
+                                                        <Route
+                                                              key={index}
+                                                              path={route.path}
+                                                              element={
+                                                                    <Layout>
+                                                                          <Page />
+                                                                    </Layout>
+                                                              }
+                                                        />
+                                                  );
+                                            })
+                                          : privateRoutes.map((route, index) => {
+                                                  const Page = route.component;
+                                                  let Layout = DefaultLayout;
+
+                                                  if (route.layout) {
+                                                        Layout = route.layout;
+                                                  } else if (route.layout === null) {
+                                                        Layout = Fragment;
+                                                  }
+
+                                                  return (
+                                                        <Route
+                                                              key={index}
+                                                              path={route.path}
+                                                              element={
+                                                                    <Layout>
+                                                                          <Page />
+                                                                    </Layout>
+                                                              }
+                                                        />
+                                                  );
+                                            })}
                               </Routes>
                         </Router>
                   </div>

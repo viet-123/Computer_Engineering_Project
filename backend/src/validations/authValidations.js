@@ -26,6 +26,6 @@ export const validateSigningUp = () => [
 ];
 
 export const validateLoggingIn = () => [
-  checkString('username', 6),
+  checkString('email', 6),
   checkString('password', 6),
 ];
