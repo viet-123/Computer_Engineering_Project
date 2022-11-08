@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Date from './Date';
 import Radio from '../Radio/Radio';
 import useClickOutside from '../../hooks/useClickOutside';
+import ProfileInput from './ProfileInput/ProfileInput';
 export default function ProfileInfo(props) {
       const { user } = props;
       // const temp = { ...user };
@@ -87,19 +88,7 @@ export default function ProfileInfo(props) {
                                     </div>
                               </div>
                               <div className="mb-[30px] ">
-                                    <div className="flex items-center">
-                                          <div className="w-[20%] capitalize text-right text-additional-black overflow-hidden text-[14px]">
-                                                <label>Name</label>
-                                          </div>
-                                          <div className="w-[80%] pl-[20px]">
-                                                <div className="flex items-center bg-white rounded-sm border text-[#222] h-[40px] px-[10px] py-[10px]">
-                                                      <input
-                                                            type="text"
-                                                            className="flex-1 text-[14px] bg-transparent focus:outline-none"
-                                                      />
-                                                </div>
-                                          </div>
-                                    </div>
+                                    <ProfileInput label="Name" type="text" />
                               </div>
                               <div className="mb-[30px] ">
                                     <div className="flex items-center">

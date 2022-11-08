@@ -1,6 +1,9 @@
 import React from 'react';
 import ProfileInfo from '../../component/ProfileInfo/ProfileInfo';
+import { useSelector, useDispatch } from 'react-redux';
 export default function Profile() {
+      const dispatch = useDispatch();
+
       const user = {
             name: 'Hung09092001',
             email: 'admin@gmail.com',
@@ -12,7 +15,9 @@ export default function Profile() {
       return (
             <div className="rounded-xl shadow-3xl px-[20px] bg-white py-[20px]">
                   <div className="border-b pb-[20px]">
-                        <h1 className="capitalize text-[18px] text-[#333] leading-6">My Profile</h1>
+                        <h1 className="capitalize text-[18px] text-[#333] leading-6 font-bold">
+                              My Profile
+                        </h1>
                         <div className="text-[14px] leading-4 text-[#555] mt-[6px]">
                               Manage profile information for account security
                         </div>

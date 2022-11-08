@@ -10,8 +10,7 @@ export const signup = catchAsync(async (req, res, next) => {
 });
 
 export const login = catchAsync(async (req, res, next) => {
-  console.log(req.body.username);
-  const user = await User.findOne({ email: req.body.username }).select(
+  const user = await User.findOne({ username: req.body.username }).select(
     '+password'
   );
   if (!user || !(await user.comparePassword(req.body.password))) {

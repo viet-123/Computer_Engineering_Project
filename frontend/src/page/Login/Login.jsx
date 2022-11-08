@@ -6,11 +6,11 @@ import { CancelIcon } from '../../component/Icon/Icon';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/Action/UseAction';
-
+import Warning from '../../component/Warning/Warning';
 export default function Login() {
       const dispatch = useDispatch();
-      const userDetail = useSelector((state) => state.user);
-      const { error, loading, user } = userDetail;
+      const userDetail = useSelector((state) => state.userLogin);
+      const { error } = userDetail;
 
       const email = useRef();
       const password = useRef();
@@ -40,15 +40,13 @@ export default function Login() {
                                     </p>
                               </div>
                               {error ? (
-                                    <div className="mb-[15px] bg-[#fff9fa] border border-minus-red flex justify-start py-[10px] pl-[10px] rounded">
-                                          <div className="mr-[5px] mt-[3px]">
-                                                <CancelIcon />
-                                          </div>
-                                          <div className="text-[14px] text-[#222]">
-                                                Tài khoản hoặc mật khẩu không chính xác. Xin vui
-                                                lòng thử lại
-                                          </div>
-                                    </div>
+                                    <Warning
+                                          text="Đăng kí thất bại"
+                                          icon={<CancelIcon />}
+                                          bgColor="bg-[#fff9fa]"
+                                          textColor="text-[#222]"
+                                          borColor="border-minus-red"
+                                    />
                               ) : (
                                     <></>
                               )}

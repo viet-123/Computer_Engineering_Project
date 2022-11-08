@@ -16,6 +16,7 @@ module.exports = {
                         'blur-grey': 'rgba(0,0,0,.02)',
                         'minus-red': 'rgba(255,66,79,.2);',
                         'blur-orange': 'rgb(208 110 1 / 8%)',
+                        'minus-green': 'rgba(74, 241, 79, 0.2)',
                   },
                   width: {
                         '9/10': '90%',

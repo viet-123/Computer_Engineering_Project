@@ -1,11 +1,34 @@
 import React, { useRef } from 'react';
 import Input from '../../component/Input/Input';
 import Button from '../../component/Button/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../../redux/Action/UseAction';
+import Warning from '../../component/Warning/Warning';
+import { CancelIcon, CheckIcon } from '../../component/Icon/Icon';
 export default function Signup() {
-      const name = useRef();
+      const dispatch = useDispatch();
+      const userDetail = useSelector((state) => state.userRegister);
+      const { error, isfetching } = userDetail;
       const email = useRef();
-      const handelLogin = (e) => {
-            console.log(123);
+      const password = useRef();
+      const confirmPassword = useRef();
+
+      const handleSignup = (e) => {
+            e.preventDefault();
+            dispatch(
+                  register(
+                        email.current.value,
+                        password.current.value,
+                        confirmPassword.current.value,
+                  ),
+            );
+      };
+
+      const handleError = (error) => {
+            let temp = error.substring(error.search('{') + 1, error.length - 1);
+            temp = temp.substring(temp.indexOf('[') + 1, temp.length);
+            temp = temp.substring(0, temp.indexOf(']'));
+            return temp;
       };
 
       return (
@@ -18,28 +41,43 @@ export default function Signup() {
                                     </h1>
                                     <p className="mt-[8px] text-[#525f7f]">It's free and easy</p>
                               </div>
-                              <Input
-                                    type="name"
-                                    label="Your name"
-                                    placeholder="Enter your name"
-                                    ref={name}
-                              />
+                              {!error && isfetching ? (
+                                    <Warning
+                                          text="Đăng kí thành công"
+                                          icon={<CheckIcon />}
+                                          bgColor="bg-[#f9fffa]"
+                                          textColor="text-[#222]"
+                                          borColor="border-minus-green"
+                                    />
+                              ) : error && isfetching ? (
+                                    <Warning
+                                          text={handleError(error)}
+                                          icon={<CancelIcon />}
+                                          bgColor="bg-[#fff9fa]"
+                                          textColor="text-[#222]"
+                                          borColor="border-minus-red"
+                                    />
+                              ) : (
+                                    <></>
+                              )}
+
                               <Input
                                     type="email"
                                     label="E-mail or phone number"
                                     placeholder="Type your e-mail or phone number"
+                                    ref={email}
                               />
                               <Input
                                     type="password"
                                     label="Password"
                                     placeholder="Password"
-                                    ref={email}
+                                    ref={password}
                               />
                               <Input
                                     type="password"
                                     label="Confirm Password"
                                     placeholder="Confirm Password"
-                                    ref={email}
+                                    ref={confirmPassword}
                               />
                               <div className="mb-[20px] ">
                                     <div className="pl-[24px] min-h-[26px] ">
@@ -58,7 +96,7 @@ export default function Signup() {
                                     </div>
                               </div>
                               <Button
-                                    onClick={handelLogin}
+                                    onClick={handleSignup}
                                     bgColor="bg-[#5c60f5]"
                                     tColor="text-white"
                                     title="Register"

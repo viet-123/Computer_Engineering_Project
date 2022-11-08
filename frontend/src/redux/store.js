@@ -1,10 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { userReducer } from './Reducers/UserReducer';
+import { userLoginReducer, userRegisterReducer } from './Reducers/UserReducer';
 
 const reducer = combineReducers({
-      user: userReducer,
+      userLogin: userLoginReducer,
+      userRegister: userRegisterReducer,
 });
 
 const userFromLocal = localStorage.getItem('USER')
@@ -12,7 +13,7 @@ const userFromLocal = localStorage.getItem('USER')
       : null;
 
 const initialState = {
-      user: {
+      userLogin: {
             user: userFromLocal,
       },
 };

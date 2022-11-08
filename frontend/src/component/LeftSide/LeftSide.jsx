@@ -35,6 +35,12 @@ export default function LeftSide(props) {
                   title: 'Profile',
                   link: '/profile',
             },
+            {
+                  id: 6,
+                  Icon: FeedIcon.ChangePassword,
+                  title: 'Change password',
+                  link: '/password',
+            },
       ];
       return (
             <>
