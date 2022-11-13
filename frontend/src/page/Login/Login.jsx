@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Input from '../../component/Input/Input';
 import Button from '../../component/Button/Button';
 import Logo from '../../assets/image/logo.png';
+import { CancelIcon } from '../../component/Icon/Icon';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../redux/Action/UseAction';
+import Warning from '../../component/Warning/Warning';
 export default function Login() {
+      const dispatch = useDispatch();
+      const userDetail = useSelector((state) => state.userLogin);
+      const { error } = userDetail;
+
+      const email = useRef();
+      const password = useRef();
+
       const handelLogin = (e) => {
-            console.log(123);
+            e.preventDefault();
+            dispatch(login(email.current.value, password.current.value));
       };
+
       return (
             <>
-                  <div className="fixed top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] lg:w-5/12 w-full mx-auto bg-[#f6f6f6] rounded">
+                  <form
+                        className="fixed top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] lg:w-5/12 w-full mx-auto bg-[#f6f6f6] rounded"
+                        onSubmit={handelLogin}
+                  >
                         <div className="md:px-[90px] px-[10px] py-[30px] flex justify-center w-full flex-col">
                               <div className="mb-[32px] text-center items-center">
                                     <div className="flex justify-center">
@@ -23,8 +39,29 @@ export default function Login() {
                                           Let's build something great
                                     </p>
                               </div>
-                              <Input label="Email address" placeholder="Your email address" />
-                              <Input label="Password" placeholder="Password" />
+                              {error ? (
+                                    <Warning
+                                          text="Đăng kí thất bại"
+                                          icon={<CancelIcon />}
+                                          bgColor="bg-[#fff9fa]"
+                                          textColor="text-[#222]"
+                                          borColor="border-minus-red"
+                                    />
+                              ) : (
+                                    <></>
+                              )}
+                              <Input
+                                    ref={email}
+                                    label="Email address"
+                                    placeholder="Your email address"
+                                    type="text"
+                              />
+                              <Input
+                                    ref={password}
+                                    label="Password"
+                                    placeholder="Password"
+                                    type="password"
+                              />
                               <div className="mb-[20px] ">
                                     <div className="pl-[24px] min-h-[26px] ">
                                           <input
@@ -57,7 +94,7 @@ export default function Login() {
                                     </Link>
                               </div>
                         </div>
-                  </div>
+                  </form>
             </>
       );
 }

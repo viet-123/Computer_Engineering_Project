@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { FeedIcon } from '../Icon/Icon';
 export default function LeftSide(props) {
+      const Params = useLocation();
       const { list } = props;
-      const [active, setActive] = useState();
       const FeedData = [
             {
                   id: 1,
@@ -15,13 +15,13 @@ export default function LeftSide(props) {
                   id: 2,
                   Icon: FeedIcon.SearchIcon,
                   title: 'Accquaintace History',
-                  link: '/history',
+                  link: '/acchistory',
             },
             {
                   id: 3,
                   Icon: FeedIcon.SearchIcon,
                   title: 'All history',
-                  link: '/history',
+                  link: '/allhistory',
             },
             {
                   id: 4,
@@ -35,6 +35,12 @@ export default function LeftSide(props) {
                   title: 'Profile',
                   link: '/profile',
             },
+            {
+                  id: 6,
+                  Icon: FeedIcon.ChangePassword,
+                  title: 'Change password',
+                  link: '/password',
+            },
       ];
       return (
             <>
@@ -47,9 +53,8 @@ export default function LeftSide(props) {
                               {FeedData.map((Feed, Index) => (
                                     <Link to={Feed.link} key={Index}>
                                           <li
-                                                onClick={() => setActive(Feed.id)}
                                                 className={`cursor-pointer py-[10px] px-[20px] font-normal + ${
-                                                      active === Feed.id
+                                                      Params.pathname === Feed.link
                                                             ? 'text-white bg-[#4a4fb0] rounded-lg'
                                                             : ''
                                                 }`}
@@ -58,7 +63,8 @@ export default function LeftSide(props) {
                                                       <span className="inline-block min-w-[20px] mr-[15px] ">
                                                             <Feed.Icon
                                                                   fill={
-                                                                        active === Feed.id
+                                                                        Params.pathname ===
+                                                                        Feed.link
                                                                               ? 'white'
                                                                               : 'black'
                                                                   }
