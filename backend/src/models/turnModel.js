@@ -4,6 +4,7 @@ const turnSchema = new mongoose.Schema(
   {
     person: {
       type: mongoose.Schema.ObjectId,
+      default: null,
       ref: 'Person',
     },
     time: {
@@ -12,6 +13,10 @@ const turnSchema = new mongoose.Schema(
     },
     isMasked: {
       type: Boolean,
+      required: true,
+    },
+    images: {
+      type: [String],
       required: true,
     },
   },

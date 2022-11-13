@@ -107,10 +107,38 @@ export const checkURL = (field) =>
     .withMessage(`${lodash.startCase(field)} is required.`)
     .bail()
     .isURL()
-    .withMessage(`${lodash.startCase(field)} is invalid.`);
+    .withMessage(`${lodash.startCase(field)} must be an URL.`);
 
 export const checkOptionalURL = (field) =>
   check(field)
     .optional()
     .isURL()
-    .withMessage(`${lodash.startCase(field)} is invalid.`);
+    .withMessage(`${lodash.startCase(field)} must be an URL.`);
+
+export const checkArray = (field) =>
+  check(field)
+    .exists()
+    .withMessage(`${lodash.startCase(field)} is required.`)
+    .bail()
+    .isArray()
+    .withMessage(`${lodash.startCase(field)} must be an array.`);
+
+export const checkOptionalArray = (field) =>
+  check(field)
+    .optional()
+    .isArray()
+    .withMessage(`${lodash.startCase(field)} must be an array.`);
+
+export const checkBoolean = (field) =>
+  check(field)
+    .exists()
+    .withMessage(`${lodash.startCase(field)} is required.`)
+    .bail()
+    .isBoolean()
+    .withMessage(`${lodash.startCase(field)} must be a boolean.`);
+
+export const checkOptionalBoolean = (field) =>
+  check(field)
+    .optional()
+    .isBoolean()
+    .withMessage(`${lodash.startCase(field)} must be a boolean.`);

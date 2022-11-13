@@ -1,5 +1,10 @@
 import express from 'express';
 import { protect } from '../middlewares/authMiddlewares.js';
+import validate from '../middlewares/validate.js';
+import {
+  validateCreatingTurn,
+  validateUpdatingTurn,
+} from '../validations/turnValidations.js';
 import {
   getAllTurns,
   getTurn,
@@ -14,11 +19,11 @@ router.use(protect);
 
 router.get('/', getAllTurns);
 
-router.post('/', createTurn);
+router.post('/', validate(validateCreatingTurn), createTurn);
 
 router.get('/:id', getTurn);
 
-router.patch('/:id', updateTurn);
+router.patch('/:id', validate(validateUpdatingTurn), updateTurn);
 
 router.delete('/:id', deleteTurn);
 

@@ -13,7 +13,7 @@ router.use(protect);
 router.get('/info', getCurrentId, getUser);
 
 router.post(
-  '/changePassword',
+  '/change_password',
   validate(validateChangingPassword),
   changePassword
 );

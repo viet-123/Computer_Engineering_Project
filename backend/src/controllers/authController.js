@@ -10,11 +10,11 @@ export const signup = catchAsync(async (req, res, next) => {
 });
 
 export const login = catchAsync(async (req, res, next) => {
-  const user = await User.findOne({ email: req.body.email }).select(
+  const user = await User.findOne({ username: req.body.username }).select(
     '+password'
   );
   if (!user || !(await user.comparePassword(req.body.password))) {
-    return next(new AppError('Incorrect email or password', 401));
+    return next(new AppError('Incorrect username or password', 401));
   }
 
   createSendToken(user, 200, req, res);
