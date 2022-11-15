@@ -26,9 +26,23 @@ export const userRegisterReducer = (state = {}, action) => {
             case USER_REGISTER_REQUEST:
                   return { user: null, loading: true, isfetching: false };
             case USER_REGISTER_SUCCESS:
+                  localStorage.removeItem('USER');
                   return { user: action.payload, loading: true, isfetching: true };
             case USER_REGISTER_FAIL:
                   return { user: null, error: action.payload, isfetching: true, loading: true };
+            default:
+                  return state;
+      }
+};
+
+export const userChangepassword = (state = {}, action) => {
+      switch (action.type) {
+            case USER_REGISTER_REQUEST:
+                  return { user: null, loading: true };
+            case USER_REGISTER_SUCCESS:
+                  return { user: action.payload, loading: true };
+            case USER_REGISTER_FAIL:
+                  return { user: null, error: action.payload, loading: true };
             default:
                   return state;
       }

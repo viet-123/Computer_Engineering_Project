@@ -7,9 +7,9 @@ import {
 } from './handlerFactory.js';
 import Turn from '../models/turnModel.js';
 
-export const getAllTurns = getAll(Turn);
+export const getAllTurns = getAll(Turn, 'person');
 
-export const getTurn = getOne(Turn);
+export const getTurn = getOne(Turn, 'person');
 
 export const createTurn = createOne(Turn);
 

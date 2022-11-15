@@ -1,5 +1,8 @@
 import axios from 'axios';
 import {
+      USER_CHANGE_FAIL,
+      USER_CHANGE_REQUEST,
+      USER_CHANGE_SUCCESS,
       USER_LOGIN_FAIL,
       USER_LOGIN_REQUEST,
       USER_LOGIN_SUCCESS,
@@ -81,3 +84,42 @@ export const logout = () => async (dispatch) => {
       dispatch({ type: USER_LOGOUT });
       window.location.href = '/';
 };
+
+export const changepassword =
+      (currentPassword, password, confirmPassword) => async (dispatch, getState) => {
+            try {
+                  dispatch({
+                        type: USER_CHANGE_REQUEST,
+                  });
+                  const {
+                        userLogin: { user },
+                  } = getState();
+                  const config = {
+                        headers: {
+                              Authorization: `Bearer ${user.token}`,
+                              'Content-Type': 'application/json',
+                        },
+                  };
+                  const res = await axios.post(
+                        `http://localhost:8000/api/me/change_password`,
+                        {
+                              currentPassword,
+                              password,
+                              confirmPassword,
+                        },
+                        config,
+                  );
+                  dispatch({
+                        type: USER_CHANGE_SUCCESS,
+                        payload: res.data,
+                  });
+            } catch (error) {
+                  dispatch({
+                        type: USER_CHANGE_FAIL,
+                        payload:
+                              error.response && error.response.data.message
+                                    ? error.response.data.message
+                                    : error.message,
+                  });
+            }
+      };

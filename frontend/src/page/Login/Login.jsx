@@ -41,7 +41,7 @@ export default function Login() {
                               </div>
                               {error ? (
                                     <Warning
-                                          text="Đăng kí thất bại"
+                                          text="Incorrect username or password"
                                           icon={<CancelIcon />}
                                           bgColor="bg-[#fff9fa]"
                                           textColor="text-[#222]"

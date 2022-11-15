@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SearchIcon } from '../Icon/Icon';
 import Modal from '../Modal/Modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { getallturn } from '../../redux/Action/TurnAction';
 export default function Table() {
+      const dispatch = useDispatch();
       const [showModal, setShowModal] = useState(false);
       const [value, setValue] = useState('');
+      const turnList = useSelector((state) => state.turnList);
+      const { loading, error, turn } = turnList;
+
+      useEffect(() => {
+            dispatch(getallturn());
+      }, [dispatch]);
 
       const userData = [
             {
@@ -35,7 +44,7 @@ export default function Table() {
                                           Last Name
                                     </th>
                                     <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
-                                          Respone
+                                          IsMask
                                     </th>
                                     <th className="w-[30%] border text-center py-[15px] px-2 font-semibold text-sm">
                                           Time Access

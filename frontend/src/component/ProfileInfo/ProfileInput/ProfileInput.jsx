@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 
 function ProfileInput(props, ref) {
-      const { className, label, type } = props;
+      const { className, label, type, onChange } = props;
       return (
             <div className={`flex items-center + ${className}`}>
                   <div className="w-[20%] capitalize text-right text-additional-black overflow-hidden text-[14px]">
@@ -13,6 +13,7 @@ function ProfileInput(props, ref) {
                                     ref={ref}
                                     type={type}
                                     className="flex-1 text-[14px] bg-transparent focus:outline-none"
+                                    onChange={onChange}
                               />
                         </div>
                   </div>
