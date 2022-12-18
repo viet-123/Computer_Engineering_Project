@@ -43,7 +43,7 @@ def detect_and_predict_mask(frame, faceNet, maskNet,threshold):
 
 		# filter out weak detections by ensuring the confidence is
 		# greater than the minimum confidence
-		if confidence >threshold:
+		if confidence > threshold:
 			# compute the (x, y)-coordinates of the bounding box for
 			# the object
 			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
@@ -92,7 +92,7 @@ maskNet = load_model(MASK_MODEL_PATH)
 
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
-vs = VideoStream(0).start()
+vs = VideoStream('rtsp://admin:PYNLJC@192.168.45.239:554/H.264').start()
 time.sleep(2.0)
 
 

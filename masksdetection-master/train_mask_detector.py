@@ -21,15 +21,13 @@ from sklearn.metrics import classification_report
 from imutils import paths
 import matplotlib.pyplot as plt
 import numpy as np
-import argparse
 import os
 
 print(os.getcwd())
 # construct the argument parser and parse the arguments
-dataset_path=os.getcwd()+"//dataset"
-model_path=os.getcwd()+"//model//mask_model"
-plot_path=os.getcwd()+"//plot"
-
+dataset_path = os.getcwd() + "//dataset"
+model_path = os.getcwd() + "//model//mask_model"
+plot_path = os.getcwd() + "//plot"
 
 # initialize the initial learning rate, number of epochs to train for,
 # and batch size
@@ -41,23 +39,23 @@ BS = 32
 # the list of data (i.e., images) and class images
 print("[INFO] loading images...")
 imagePaths = list(paths.list_images(dataset_path))
-imagePaths = [imagePath.replace("\\","//",-1) for imagePath in imagePaths]
+imagePaths = [imagePath.replace("\\", "//", -1) for imagePath in imagePaths]
 data = []
 labels = []
 
 # loop over the image paths
 for imagePath in imagePaths:
-	# extract the class label from the filename
-	label = imagePath.split("//")[-2]
+    # extract the class label from the filename
+    label = imagePath.split("//")[-2]
 
-	# load the input image (224x224) and preprocess it
-	image = load_img(imagePath, target_size=(224, 224))
-	image = img_to_array(image)
-	image = preprocess_input(image)
+    # load the input image (224x224) and preprocess it
+    image = load_img(imagePath, target_size=(224, 224))
+    image = img_to_array(image)
+    image = preprocess_input(image)
 
-	# update the data and labels lists, respectively
-	data.append(image)
-	labels.append(label)
+    # update the data and labels lists, respectively
+    data.append(image)
+    labels.append(label)
 
 # convert the data and labels to NumPy arrays
 data = np.array(data, dtype="float32")
@@ -71,21 +69,21 @@ labels = to_categorical(labels)
 # partition the data into training and testing splits using 75% of
 # the data for training and the remaining 25% for testing
 (trainX, testX, trainY, testY) = train_test_split(data, labels,
-	test_size=0.20, stratify=labels, random_state=42)
+                                                  test_size=0.20, stratify=labels, random_state=42)
 
 # construct the training image generator for data augmentation
 aug = ImageDataGenerator(
-	rotation_range=20,
-	zoom_range=0.15,
-	width_shift_range=0.2,
-	height_shift_range=0.2,
-	shear_range=0.15,
-	horizontal_flip=True,
-	fill_mode="nearest")
+    rotation_range=20,
+    zoom_range=0.15,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.15,
+    horizontal_flip=True,
+    fill_mode="nearest")
 
 # load the MobileNetV2 network, ensuring the head FC layer sets are
 # left off
-baseModel = MobileNetV2(weights="imagenet", include_top=False,input_tensor=Input(shape=(224, 224, 3)))
+baseModel = MobileNetV2(weights="imagenet", include_top=False, input_tensor=Input(shape=(224, 224, 3)))
 
 # construct the head of the model that will be placed on top of the
 # the base model
@@ -103,22 +101,22 @@ model = Model(inputs=baseModel.input, outputs=headModel)
 # loop over all layers in the base model and freeze them so they will
 # *not* be updated during the first training process
 for layer in baseModel.layers:
-	layer.trainable = False
+    layer.trainable = False
 
 # compile our model
 print("[INFO] compiling model...")
-opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
+opt = Adam(learning_rate=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(loss="binary_crossentropy", optimizer=opt,
-	metrics=["accuracy"])
+              metrics=["accuracy"])
 
 # train the head of the network
 print("[INFO] training head...")
 H = model.fit(
-	aug.flow(trainX, trainY, batch_size=BS),
-	steps_per_epoch=len(trainX) // BS,
-	validation_data=(testX, testY),
-	validation_steps=len(testX) // BS,
-	epochs=EPOCHS)
+    aug.flow(trainX, trainY, batch_size=BS),
+    steps_per_epoch=len(trainX) // BS,
+    validation_data=(testX, testY),
+    validation_steps=len(testX) // BS,
+    epochs=EPOCHS)
 
 # make predictions on the testing set
 print("[INFO] evaluating network...")
@@ -130,11 +128,11 @@ predIdxs = np.argmax(predIdxs, axis=1)
 
 # show a nicely formatted classification report
 print(classification_report(testY.argmax(axis=1), predIdxs,
-	target_names=lb.classes_))
+                            target_names=lb.classes_))
 
 # serialize the model to disk
 print("[INFO] saving mask detector model...")
-model.save(model_path+".h5")
+model.save(model_path + ".h5")
 
 # plot the training loss and accuracy
 N = EPOCHS
