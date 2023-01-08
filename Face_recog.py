@@ -1,5 +1,6 @@
 import cv2
 import face_recognition
+import shutil
 import numpy as np
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.preprocessing.image import img_to_array
@@ -16,16 +17,29 @@ encode_list = []
 encode_list_cl = []
 myList = os.listdir(img_path)
 
-for subdir in os.listdir(img_path):
+personID = ["63ba69cf61b7276ed162f2ac", "63ba781e63aa6815f52f0dfd"]
+count = 1
+for subdir, pID in zip(os.listdir(img_path), personID):
     path = img_path + '/' + subdir
     path = path + '/'
+    person = "Known/{}_{}".format(subdir, pID)
+    try:
+        shutil.rmtree(person)
+    except:
+        print()
+    os.mkdir(person)
     for img in os.listdir(path):
         img_pic = path + img
-        class_names.append(subdir)
         cur_img = cv2.imread(img_pic)
+        faceLoc = face_recognition.face_locations(cur_img)[0]
+        y1, x2, y2, x1 = faceLoc
+        img_name = person + "/{}_{}".format(subdir, count) + ".jpg"
+        cv2.imwrite(img_name, cur_img[y1:y2, x1:x2])
+        print("{} written!".format(img_name))
+        count += 1
+        class_names.append(subdir)
         cur_img = cv2.cvtColor(cur_img, cv2.COLOR_BGR2RGB)
         images.append(cur_img)
-
 
 def detect_and_predict_mask(frame, faceNet, maskNet, threshold):
     # grab the dimensions of the frame and then construct a blob
@@ -78,22 +92,16 @@ def detect_and_predict_mask(frame, faceNet, maskNet, threshold):
 
 
 # SETTINGS
-MASK_MODEL_PATH = "C:\masksdetection-master\masksdetection-master\model\mask_model.h5"
-FACE_MODEL_PATH = "C:\masksdetection-master\masksdetection-master\face_detector"
-SOUND_PATH = "C:\masksdetection-master\masksdetection-master\sounds\alarm.wav"
+MASK_MODEL_PATH = os.getcwd() + "//masksdetection-master//model//mask_model.h5"
+FACE_MODEL_PATH = os.getcwd() + "//masksdetection-master//face_detector"
 THRESHOLD = 0.5
 
-# Load Sounds
-# mixer.init()
-# sound = mixer.Sound(SOUND_PATH)
 from os.path import dirname, join
 
 protoPath = join(dirname(__file__), "deploy.prototxt")
 weightsPath = join(dirname(__file__), "res10_300x300_ssd_iter_140000.caffemodel")
 # load our serialized face detector model from disk
 print("[INFO] loading face detector model...")
-# prototxtPath = "C:\masksdetection-master\masksdetection-master\face_detector\deploy.prototxt.txt"
-# weightsPath = os.path.sep.join([FACE_MODEL_PATH,"res10_300x300_ssd_iter_140000.caffemodel"])
 faceNet = cv2.dnn.readNet(protoPath, weightsPath)
 
 # load the face mask detector model from disk
@@ -104,7 +112,6 @@ maskNet = load_model(MASK_MODEL_PATH)
 print("[INFO] starting video stream...")
 vs = cv2.VideoCapture(0)
 time.sleep(2.0)
-
 
 def find_encodings(images):
     # for names in images :

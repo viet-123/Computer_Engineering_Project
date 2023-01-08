@@ -14,42 +14,32 @@ CONNECTING STRING FORM: "mongodb+srv://<USER>:<PASSWORD>@<CLUSTER>/<user>?ssl=tr
 """
 
 cluster = MongoClient(
-    "mongodb+srv://hda1010:duyanh123@cluster0.ukowb.mongodb.net/facerecognition?retryWrites=true&w=majority"
+    "mongodb+srv://theeleven:GgLYZ3uEv70JkuvG@face.cly0nzp.mongodb.net/?retryWrites=true&w=majority"
 )
 # go to database
-db = cluster["facerecognition"]
+db = cluster["Face"]
 
-persons = db["persons"]
+people = db["people"]
 turns = db["turns"]
-flag = db["flags"]
-
-
 class Mongo:
-    def updateFlag(self):
-        f = flag.find_one()
-        newFlag = {"$set": {"Flagcheck": True}}
-        flag.update_one(f, newFlag)
-
     def clearTurn(self):
         turns.delete_many({})
         return "delete all turns"
-
     def clearPerson(self):
-        persons.delete_many({})
+        people.delete_many({})
         return "Delete all persons"
 
     def getNameById(self, id):
         Fname, Lname = "", ""
-        for person in persons.find():
+        for person in people.find():
             if str(person["_id"]) == id:
                 Fname, Lname = person["Fname"], person["Lname"]
         return Fname, Lname
 
-
 ##########################################################################################################
 class Control:
     def addPerson(self, Fname, Lname, status=True):
-        id = persons.count_documents({})
+        id = people.count_documents({})
         createAt, updateAt = datetime.now().strftime(
             "%Y-%m-%d %H:%M:%S"
         ), datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -62,7 +52,7 @@ class Control:
             "updateAt": updateAt,
             "__v": 0,
         }
-        persons.insert_one(newPerson)
+        people.insert_one(newPerson)
 
     def addTurn(self, imgUrl, Personid, __v, Status=True, Response=False):
         timeEvent = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -77,7 +67,7 @@ class Control:
 
     # get imgUrl
     def getImageUrl(self):
-        files = glob.glob("..\public\img\*.png")
+        files = glob.glob("Turn/*jpg")
         imgName = max(files, key=os.path.getctime)
-        imgUrl = "../img/" + imgName[14::]
+        imgUrl = "Turn/" + imgName[14::]
         return str(imgUrl)
