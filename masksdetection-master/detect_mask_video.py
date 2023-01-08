@@ -92,7 +92,7 @@ maskNet = load_model(MASK_MODEL_PATH)
 
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
-vs = VideoStream('rtsp://admin:PYNLJC@192.168.45.239:554/H.264').start()
+vs = VideoStream(0).start()
 time.sleep(2.0)
 
 
@@ -148,5 +148,3 @@ while True:
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
-
-    

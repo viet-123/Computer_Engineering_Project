@@ -7,11 +7,11 @@ import {
 export const listturnReducer = (state = {}, action) => {
       switch (action.type) {
             case TURN_DETAILS_REQUEST:
-                  return { user: null, loading: true };
+                  return { turn: null, loading: false };
             case TURN_DETAILS_SUCCESS:
-                  return { user: action.payload, loading: true };
+                  return { turn: action.payload, loading: true, error: false };
             case TURN_DETAILS_FAIL:
-                  return { user: null, error: true };
+                  return { turn: null, error: true };
             default:
                   return state;
       }

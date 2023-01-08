@@ -6,6 +6,7 @@ from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
 import os
 import time
+from datetime import datetime
 
 img_path = os.getcwd() + "//dataset"
 
@@ -24,6 +25,8 @@ for subdir in os.listdir(img_path):
         cur_img = cv2.imread(img_pic)
         cur_img = cv2.cvtColor(cur_img, cv2.COLOR_BGR2RGB)
         images.append(cur_img)
+
+
 def detect_and_predict_mask(frame, faceNet, maskNet, threshold):
     # grab the dimensions of the frame and then construct a blob
     # from it
@@ -99,8 +102,10 @@ maskNet = load_model(MASK_MODEL_PATH)
 
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
-vs = cv2.VideoCapture('rtsp://admin:PYNLJC@192.168.45.239:554/H.264')
+vs = cv2.VideoCapture(0)
 time.sleep(2.0)
+
+
 def find_encodings(images):
     # for names in images :
     for img in images:
@@ -108,57 +113,64 @@ def find_encodings(images):
         encode_list.append(encodings)
     return encode_list
 
-encodeListKnown = find_encodings(images)
 
+encodeListKnown = find_encodings(images)
+turn_counter = 0
 img_counter = 0
 while True:
     key = cv2.waitKey(1) & 0xFF
+    success, img = vs.read()
     if key == ord('q'):
         break
     else:
-        success, img = vs.read()
-        # img = imutils.resize(img, width=800)
-        imgs = cv2.resize(img, (0, 0), None, 0.25, 0.25)
-        imgs = cv2.cvtColor(imgs, cv2.COLOR_BGR2RGB)
-        (locs, preds) = detect_and_predict_mask(imgs, faceNet, maskNet, THRESHOLD)
-        facesCurFrame = face_recognition.face_locations(imgs)
-        encodeCurFrame = face_recognition.face_encodings(imgs)
+        try:
+            # img = imutils.resize(img, width=800)
+            imgs = cv2.resize(img, (0, 0), None, 0.25, 0.25)
+            imgs = cv2.cvtColor(imgs, cv2.COLOR_BGR2RGB)
+            (locs, preds) = detect_and_predict_mask(imgs, faceNet, maskNet, THRESHOLD)
+            facesCurFrame = face_recognition.face_locations(imgs)
+            encodeCurFrame = face_recognition.face_encodings(imgs)
 
-        for encodeFace, faceLoc, pred in zip(encodeCurFrame, facesCurFrame, preds):
-            (mask, withoutMask) = pred
-            label = "Mask" if mask > withoutMask else "No Mask"
-            color = (0, 255, 0) if label == "Mask" else (0, 0, 255)
-            label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100)
+            for encodeFace, faceLoc, pred in zip(encodeCurFrame, facesCurFrame, preds):
+                (mask, withoutMask) = pred
+                label = "Mask" if mask > withoutMask else "No Mask"
+                color = (0, 255, 0) if label == "Mask" else (0, 0, 255)
+                label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100)
 
-            matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
-            faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
-            matchIndex = np.argmin(faceDis)
-            if faceDis[matchIndex] < 0.5:
-                name = class_names[matchIndex].upper()
-            else:
-                name = "Unknown"
-            # color = (0, 255, 0) if label == "Mask" else (0, 0, 255)
-            # if name == "Unknown":
-            #     img1 = vs.read()
-            #     if img1 is None:
-            #         continue
-            # # auto capture
-            #     img_counter += 1
-            #     if img_counter % 10 == 0:
-            #         img_name = "Unknown/unknown_{}.png".format(img_counter/10)
-            #         cv2.imwrite(img_name, img1)
-            #         print("{} written!".format(img_name))
-            #     # when img_counter = 10 reset it to save resources
-            #     if (img_counter == 100): img_counter = 0
+                matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
+                faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
+                matchIndex = np.argmin(faceDis)
+                if faceDis[matchIndex] < 0.5:
+                    name = class_names[matchIndex].upper()
+                else:
+                    name = "Unknown"
 
-            y1, x2, y2, x1 = faceLoc
-            y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
-            cv2.rectangle(img, (x1, y1), (x2, y2), color, 2)
-            cv2.rectangle(img, (x1, y2 - 35), (x2, y2), color, cv2.FILLED)
-            cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
-            cv2.putText(img, label, (x1, y2 + 10), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 0, 255), 2)
+                y1, x2, y2, x1 = faceLoc
+                y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
+                if name == "Unknown":
+                    # auto capture
+                    img_counter += 1
+                    if img_counter % 10 == 0:
+                        img_name = "Unknown/unknown_{}".format(img_counter / 10) + datetime.now().strftime(
+                            "%Y%m%d%H%M%S") + ".jpg"
+                        cv2.imwrite(img_name, img[y1:y2, x1:x2])
+                        print("{} written!".format(img_name))
+                else:
+                    turn_counter += 1
+                    if turn_counter % 10 == 0:
+                        img_name = "Turn/{}_".format(name) + datetime.now().strftime(
+                            "%Y%m%d%H%M%S") + ".jpg"
+                        cv2.imwrite(img_name, img[y1:y2, x1:x2])
+                        print("{} written!".format(img_name))
 
-            cv2.imshow('Project', img)
+                cv2.rectangle(img, (x1, y1), (x2, y2), color, 2)
+                cv2.rectangle(img, (x1, y2 - 35), (x2, y2), color, cv2.FILLED)
+                cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+                cv2.putText(img, label, (x1, y2 + 10), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 0, 255), 2)
+        except:
+            print("An exception occurred")
+
+    cv2.imshow('Project', img)
 
 vs.release()
 cv2.destroyAllWindows()
