@@ -5,9 +5,12 @@ dotenv.config({ path: './.env' });
 
 import app from './src/app.js';
 
-mongoose
-  .connect(process.env.DATABASE)
-  .then(() => console.log('DB connection successful!'));
+const DB = process.env.DATABASE.replace(
+  '<password>',
+  process.env.DATABASE_PASSWORD
+);
+
+mongoose.connect(DB, {}).then(() => console.log('DB connection successful!'));
 
 const port = process.env.PORT || 8000;
 

@@ -8,7 +8,7 @@ export default function LeftSide(props) {
             {
                   id: 1,
                   Icon: FeedIcon.CameraIcon,
-                  title: 'Turn on/off device',
+                  title: 'View DashBoard',
                   link: '/',
             },
             {
@@ -38,7 +38,7 @@ export default function LeftSide(props) {
             {
                   id: 6,
                   Icon: FeedIcon.ChangePassword,
-                  title: 'Change password',
+                  title: 'Change Password',
                   link: '/password',
             },
       ];
