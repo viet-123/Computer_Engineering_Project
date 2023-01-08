@@ -52,8 +52,8 @@ export default function Login() {
                               )}
                               <Input
                                     ref={email}
-                                    label="Email address"
-                                    placeholder="Your email address"
+                                    label="Username"
+                                    placeholder="Your Username"
                                     type="text"
                               />
                               <Input

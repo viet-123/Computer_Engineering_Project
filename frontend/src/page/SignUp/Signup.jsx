@@ -62,9 +62,9 @@ export default function Signup() {
                               )}
 
                               <Input
-                                    type="email"
-                                    label="E-mail or phone number"
-                                    placeholder="Type your e-mail or phone number"
+                                    type="text"
+                                    label="Username"
+                                    placeholder="Type your Username"
                                     ref={email}
                               />
                               <Input
