@@ -90,8 +90,8 @@ export default function Table() {
                                                                         <td className="w-[10%] border text-center py-[15px] px-2 text-sm">
                                                                               {user.isMasked ===
                                                                               true
-                                                                                    ? 'Accept'
-                                                                                    : 'Invalid'}
+                                                                                    ? 'Mask'
+                                                                                    : 'No Mask'}
                                                                         </td>
                                                                         <td className="w-[30%] border text-center py-[15px] px-2 text-sm">
                                                                               {FormatTime(
@@ -163,8 +163,8 @@ export default function Table() {
                                                                         <td className="w-[10%] border text-center py-[15px] px-2 text-sm">
                                                                               {user.isMasked ===
                                                                               true
-                                                                                    ? 'Accept'
-                                                                                    : 'Invalid'}
+                                                                                    ? 'Mask'
+                                                                                    : 'No Mask'}
                                                                         </td>
                                                                         <td className="w-[30%] border text-center py-[15px] px-2 text-sm">
                                                                               {FormatTime(
