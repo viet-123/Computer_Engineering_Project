@@ -5,9 +5,8 @@ import numpy as np
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
-import os
 import time
-from datetime import datetime
+from module import *
 
 img_path = os.getcwd() + "//dataset"
 
@@ -17,8 +16,8 @@ encode_list = []
 encode_list_cl = []
 myList = os.listdir(img_path)
 
-personID = ["63ba69cf61b7276ed162f2ac", "63ba781e63aa6815f52f0dfd"]
-count = 1
+personID = ["63ba69cf61b7276ed162f2ac", "63ba781e63aa6815f52f0dfd", ""]
+
 for subdir, pID in zip(os.listdir(img_path), personID):
     path = img_path + '/' + subdir
     path = path + '/'
@@ -28,6 +27,7 @@ for subdir, pID in zip(os.listdir(img_path), personID):
     except:
         print()
     os.mkdir(person)
+    count = 1
     for img in os.listdir(path):
         img_pic = path + img
         cur_img = cv2.imread(img_pic)
@@ -123,7 +123,11 @@ def find_encodings(images):
 
 encodeListKnown = find_encodings(images)
 turn_counter = 0
-img_counter = 0
+unknown_counter = 0
+arr = []
+arrU = []
+lastName = ""
+curName = ""
 while True:
     key = cv2.waitKey(1) & 0xFF
     success, img = vs.read()
@@ -154,28 +158,50 @@ while True:
 
                 y1, x2, y2, x1 = faceLoc
                 y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
+                curName = name
+                print(lastName + "-----" + curName)
+                if lastName != curName and (turn_counter >= 15 or unknown_counter >= 15):
+                    turn_counter = 0
+                    unknown_counter = 0
+
                 if name == "Unknown":
-                    # auto capture
-                    img_counter += 1
-                    if img_counter % 10 == 0:
-                        img_name = "Unknown/unknown_{}".format(img_counter / 10) + datetime.now().strftime(
+                    unknown_counter += 1
+                    if(unknown_counter % 5 == 0) and (unknown_counter <= 15):
+                        lastName = name
+                        img_name = "frontend/public/Unknown/unknown_" + datetime.now().strftime(
+                            "%Y%m%d%H%M%S") + ".jpg"
+                        img_name1 = "../public/Unknown/unknown_" + datetime.now().strftime(
                             "%Y%m%d%H%M%S") + ".jpg"
                         cv2.imwrite(img_name, img[y1:y2, x1:x2])
                         print("{} written!".format(img_name))
+                        arrU.append(img_name1)
+                        isMasked = (True if label == "Mask" else False)
+                        if unknown_counter == 15:
+                            Control.addTurn("", arrU, personID[2], isMasked)
+                            arrU.clear()
                 else:
                     turn_counter += 1
-                    if turn_counter % 10 == 0:
-                        img_name = "Turn/{}_".format(name) + datetime.now().strftime(
+                    if (turn_counter % 5 == 0) and (turn_counter <= 15):
+                        lastName = name
+                        img_name = "frontend/public/Turn/{}_".format(name) + datetime.now().strftime(
+                            "%Y%m%d%H%M%S") + ".jpg"
+                        img_name1 = "../public/Turn/{}_".format(name) + datetime.now().strftime(
                             "%Y%m%d%H%M%S") + ".jpg"
                         cv2.imwrite(img_name, img[y1:y2, x1:x2])
                         print("{} written!".format(img_name))
+                        isMasked = (True if label == "Mask" else False)
+                        arr.append(img_name1)
+                        psid = (personID[0] if name == "PHAT" else personID[1])
+                        if turn_counter == 15:
+                            Control.addTurn("", arr, psid, isMasked)
+                            arr.clear()
 
                 cv2.rectangle(img, (x1, y1), (x2, y2), color, 2)
                 cv2.rectangle(img, (x1, y2 - 35), (x2, y2), color, cv2.FILLED)
                 cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
                 cv2.putText(img, label, (x1, y2 + 10), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 0, 255), 2)
         except:
-            print("An exception occurred")
+            print("")
 
     cv2.imshow('Project', img)
 

@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from datetime import datetime
 import os
 import glob
+import bson
 
 """
 Using Mongodb to store Data:
@@ -17,7 +18,7 @@ cluster = MongoClient(
     "mongodb+srv://theeleven:GgLYZ3uEv70JkuvG@face.cly0nzp.mongodb.net/?retryWrites=true&w=majority"
 )
 # go to database
-db = cluster["Face"]
+db = cluster["test"]
 
 people = db["people"]
 turns = db["turns"]
@@ -54,15 +55,19 @@ class Control:
         }
         people.insert_one(newPerson)
 
-    def addTurn(self, imgUrl, Personid, __v, Status=True, Response=False):
-        timeEvent = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    def addTurn(self, imgUrl, Personid, Status):
+        timeEvent = datetime.now()
         newTurn = {
-            "urlimg": imgUrl,
-            "Status": Status,
-            "Personid": Personid,
+            "person": bson.ObjectId(Personid),
+            "time": timeEvent,
+            "isMasked": Status,
+            "images": imgUrl,
             "createAt": timeEvent,
-            "__v": __v,
+            "updateAt": timeEvent,
+            "__v": 0
         }
+        print(newTurn)
+        print("ADD NEW TURN\n")
         turns.insert_one(newTurn)
 
     # get imgUrl
