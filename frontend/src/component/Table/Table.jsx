@@ -4,6 +4,7 @@ import Modal from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getallturn } from '../../redux/Action/TurnAction';
 import Loading from '../Loading/Loading';
+import date from 'date-and-time';
 import { TablePagination } from '@mui/material';
 export default function Table() {
       const dispatch = useDispatch();
@@ -30,42 +31,8 @@ export default function Table() {
       };
 
       const FormatTime = (time) => {
-            let date = new Date(Date.parse(time));
-            const weekday = [
-                  'Sunday',
-                  'Monday',
-                  'Tuesday',
-                  'Wednesday',
-                  'Thursday',
-                  'Friday',
-                  'Saturday',
-            ];
-            const month = [
-                  'January',
-                  'February',
-                  'March',
-                  'April',
-                  'May',
-                  'June',
-                  'July',
-                  'August',
-                  'September',
-                  'October',
-                  'November',
-                  'December',
-            ];
-            let day =
-                  weekday[date.getDay()] +
-                  ', ' +
-                  month[date.getMonth()] +
-                  ' ' +
-                  date.getDate() +
-                  ', ' +
-                  date.getFullYear() +
-                  ' ' +
-                  date.toLocaleTimeString();
-
-            return day;
+            let now = new Date(Date.parse(time));
+            return date.format(now, 'YYYY/MM/DD HH:mm:ss', true);
       };
 
       return (
