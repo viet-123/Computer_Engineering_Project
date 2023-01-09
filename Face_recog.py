@@ -170,7 +170,7 @@ while True:
                         lastName = name
                         img_name = "frontend/public/Unknown/unknown_" + datetime.now().strftime(
                             "%Y%m%d%H%M%S") + ".jpg"
-                        img_name1 = "../public/Unknown/unknown_" + datetime.now().strftime(
+                        img_name1 = "Unknown/unknown_" + datetime.now().strftime(
                             "%Y%m%d%H%M%S") + ".jpg"
                         cv2.imwrite(img_name, img[y1:y2, x1:x2])
                         print("{} written!".format(img_name))
@@ -185,7 +185,7 @@ while True:
                         lastName = name
                         img_name = "frontend/public/Turn/{}_".format(name) + datetime.now().strftime(
                             "%Y%m%d%H%M%S") + ".jpg"
-                        img_name1 = "../public/Turn/{}_".format(name) + datetime.now().strftime(
+                        img_name1 = "Turn/{}_".format(name) + datetime.now().strftime(
                             "%Y%m%d%H%M%S") + ".jpg"
                         cv2.imwrite(img_name, img[y1:y2, x1:x2])
                         print("{} written!".format(img_name))
