@@ -33,7 +33,11 @@ const ModalContent = (props) => {
 export default ModalContent;
 
 export const ModalHeader = (props) => {
-      return <div className="modal__header">{props.children}</div>;
+      return (
+            <div className="modal__header border-b-2 font-bold text-[20px] flex justify-between items-center">
+                  {props.children}
+            </div>
+      );
 };
 
 export const ModalBody = (props) => {
@@ -41,5 +45,5 @@ export const ModalBody = (props) => {
 };
 
 export const ModalFooter = (props) => {
-      return <div className="modal__footer">{props.children}</div>;
+      return <div className="modal__footer flex justify-end">{props.children}</div>;
 };

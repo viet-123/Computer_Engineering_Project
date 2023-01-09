@@ -3,8 +3,7 @@ import ModalContent, { ModalBody, ModalFooter, ModalHeader } from './component/m
 import Button from './component/button/Button';
 
 function Modal(props, ref) {
-      const { value, show, setShow } = props;
-
+      const { show, setShow, image } = props;
       return (
             <div>
                   <ModalContent
@@ -13,15 +12,18 @@ function Modal(props, ref) {
                         // hideCloseButton
                   >
                         <ModalHeader>
-                              <h2>Modal header</h2>
+                              <h2>Image Details</h2>
                         </ModalHeader>
                         <ModalBody>
-                              <p style={{ textAlign: 'justify' }}>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                    Deserunt maxime dolorem asperiores laboriosam ad delectus ea.
-                                    Tempora tempore repellendus laudantium fugiat saepe mollitia
-                                    eius illo possimus laborum consequuntur, tenetur neque. {value}
-                              </p>
+                              {/* <div className="w-100 flex flex-col">
+                                    <div className="px-[20px] w-100">
+                                          <img src={image[0]} className="w-100" alt="#" />
+                                    </div>
+                                    <div className="flex flex-row px-[20px] w-100">
+                                          <img src={image[1]} className="w-50" alt="#" />
+                                          <img src={image[2]} className="w-50" alt="#" />
+                                    </div>
+                              </div> */}
                         </ModalBody>
                         <ModalFooter>
                               <Button onClick={() => setShow(false)}>Close</Button>

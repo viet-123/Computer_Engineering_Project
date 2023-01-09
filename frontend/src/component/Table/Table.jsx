@@ -7,8 +7,8 @@ import Loading from '../Loading/Loading';
 import { TablePagination } from '@mui/material';
 export default function Table() {
       const dispatch = useDispatch();
+      const [target, setTarget] = useState(0);
       const [showModal, setShowModal] = useState(false);
-      const [value, setValue] = useState('');
       const turnList = useSelector((state) => state.turnList);
       const { turn, loading } = turnList;
 
@@ -16,7 +16,7 @@ export default function Table() {
             dispatch(getallturn());
       }, [dispatch]);
       if (turn) {
-            console.log(turn.data.data.length);
+            console.log(turn.data.data);
       }
       const [limit, setLimit] = useState(10);
       const [page, setPage] = useState(0);
@@ -109,17 +109,13 @@ export default function Table() {
                                                                               {index + 1}
                                                                         </td>
                                                                         <td className="w-[10%] border text-center py-[15px] px-2 text-sm">
-                                                                              {user.person
-                                                                                    .firstName ===
-                                                                              undefined
+                                                                              {user.person === null
                                                                                     ? 'undefined'
                                                                                     : user.person
                                                                                             .firstName}
                                                                         </td>
                                                                         <td className="w-[10%] border text-center py-[15px] px-2 text-sm">
-                                                                              {user.person
-                                                                                    .lastName ===
-                                                                              undefined
+                                                                              {user.person === null
                                                                                     ? 'undefined'
                                                                                     : user.person
                                                                                             .lastName}
@@ -140,9 +136,6 @@ export default function Table() {
                                                                                     <div
                                                                                           className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full "
                                                                                           onClick={() => {
-                                                                                                setValue(
-                                                                                                      user.timeaccess,
-                                                                                                );
                                                                                                 setShowModal(
                                                                                                       true,
                                                                                                 );
@@ -205,9 +198,6 @@ export default function Table() {
                                                                                     <div
                                                                                           className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full "
                                                                                           onClick={() => {
-                                                                                                setValue(
-                                                                                                      user.timeaccess,
-                                                                                                );
                                                                                                 setShowModal(
                                                                                                       true,
                                                                                                 );
@@ -242,7 +232,12 @@ export default function Table() {
                                     rowsPerPage={limit}
                                     rowsPerPageOptions={[5, 10, 25]}
                               />
-                              <Modal value={value} show={showModal} setShow={setShowModal} />
+                              <Modal
+                                    show={showModal}
+                                    setShow={setShowModal}
+                                    image={turn.data.data}
+                                    // image={turn.data.data[target].images}
+                              />
                         </div>
                   ) : (
                         <Loading></Loading>
