@@ -197,7 +197,9 @@ export default function Table() {
                                                                               <div className="w-full flex justify-center ">
                                                                                     <div
                                                                                           className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full "
-                                                                                          onClick={() => {
+                                                                                          data-index={index}
+                                                                                          onClick={(e) => {
+                                                                                                console.log(e.currentTarget.dataset.index)
                                                                                                 setShowModal(
                                                                                                       true,
                                                                                                 );
