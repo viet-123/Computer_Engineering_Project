@@ -15,15 +15,15 @@ function Modal(props, ref) {
                               <h2>Image Details</h2>
                         </ModalHeader>
                         <ModalBody>
-                              {/* <div className="w-100 flex flex-col">
+                              <div className="w-100 flex flex-col">
                                     <div className="px-[20px] w-100">
                                           <img src={image[0]} className="w-100" alt="#" />
                                     </div>
-                                    <div className="flex flex-row px-[20px] w-100">
-                                          <img src={image[1]} className="w-50" alt="#" />
-                                          <img src={image[2]} className="w-50" alt="#" />
+                                    <div className="flex flex-row px-[20px] w-100 mt-1">
+                                          <img src={image[1]} className="w-3/6 pr-1" alt="#" />
+                                          <img src={image[2]} className="w-3/6" alt="#" />
                                     </div>
-                              </div> */}
+                              </div>
                         </ModalBody>
                         <ModalFooter>
                               <Button onClick={() => setShow(false)}>Close</Button>

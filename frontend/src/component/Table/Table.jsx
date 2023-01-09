@@ -135,7 +135,18 @@ export default function Table() {
                                                                               <div className="w-full flex justify-center ">
                                                                                     <div
                                                                                           className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full "
-                                                                                          onClick={() => {
+                                                                                          data-index={
+                                                                                                index
+                                                                                          }
+                                                                                          onClick={(
+                                                                                                e,
+                                                                                          ) => {
+                                                                                                setTarget(
+                                                                                                      e
+                                                                                                            .currentTarget
+                                                                                                            .dataset
+                                                                                                            .index,
+                                                                                                );
                                                                                                 setShowModal(
                                                                                                       true,
                                                                                                 );
@@ -197,9 +208,18 @@ export default function Table() {
                                                                               <div className="w-full flex justify-center ">
                                                                                     <div
                                                                                           className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full "
-                                                                                          data-index={index}
-                                                                                          onClick={(e) => {
-                                                                                                console.log(e.currentTarget.dataset.index)
+                                                                                          data-index={
+                                                                                                index
+                                                                                          }
+                                                                                          onClick={(
+                                                                                                e,
+                                                                                          ) => {
+                                                                                                setTarget(
+                                                                                                      e
+                                                                                                            .currentTarget
+                                                                                                            .dataset
+                                                                                                            .index,
+                                                                                                );
                                                                                                 setShowModal(
                                                                                                       true,
                                                                                                 );
@@ -237,7 +257,7 @@ export default function Table() {
                               <Modal
                                     show={showModal}
                                     setShow={setShowModal}
-                                    image={turn.data.data}
+                                    image={turn.data.data[target].images}
                                     // image={turn.data.data[target].images}
                               />
                         </div>
