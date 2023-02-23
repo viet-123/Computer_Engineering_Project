@@ -11,6 +11,7 @@ import {
   createTurn,
   updateTurn,
   deleteTurn,
+  statsTurn,
 } from '../controllers/turnController.js';
 
 const router = express.Router();
@@ -20,6 +21,8 @@ router.use(protect);
 router.get('/', getAllTurns);
 
 router.post('/', validate(validateCreatingTurn), createTurn);
+
+router.get('/stats', statsTurn);
 
 router.get('/:id', getTurn);
 

@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getallturn } from '../../redux/Action/TurnAction';
 import Loading from '../../component/Loading/Loading';
+import date from 'date-and-time';
+import Webcam from 'react-webcam';
 export default function Home() {
       const dispatch = useDispatch();
       const turnList = useSelector((state) => state.turnList);
@@ -16,42 +18,8 @@ export default function Home() {
       }
 
       const FormatTime = (time) => {
-            let date = new Date(Date.parse(time));
-            const weekday = [
-                  'Sunday',
-                  'Monday',
-                  'Tuesday',
-                  'Wednesday',
-                  'Thursday',
-                  'Friday',
-                  'Saturday',
-            ];
-            const month = [
-                  'January',
-                  'February',
-                  'March',
-                  'April',
-                  'May',
-                  'June',
-                  'July',
-                  'August',
-                  'September',
-                  'October',
-                  'November',
-                  'December',
-            ];
-            let day =
-                  weekday[date.getDay()] +
-                  ', ' +
-                  month[date.getMonth()] +
-                  ' ' +
-                  date.getDate() +
-                  ', ' +
-                  date.getFullYear() +
-                  ' ' +
-                  date.toLocaleTimeString();
-
-            return day;
+            let now = new Date(Date.parse(time));
+            return date.format(now, 'YYYY/MM/DD HH:mm:ss', true);
       };
 
       return (
@@ -61,20 +29,31 @@ export default function Home() {
                               <h1 className="font-normal text-[36px] mb-[10px]">Home</h1>
                               <div className="rounded-xl shadow-3xl px-[20px] bg-white py-[20px] h-[90%] flex flex-wrap">
                                     <div className="w-[50%] h-[400px] bg-white">
-                                          <div className="w-full h-full bg-slate-500"></div>
+                                          <Webcam />
                                     </div>
+
                                     <div className="w-[50%] px-[20px]">
-                                          <h1 className="text-[28px] font-normal">
-                                                Current Access
+                                          <h1 className="text-[28px] font-normal mb-5">
+                                                Latest Access
                                           </h1>
-                                          <p className="text-[24px]">
-                                                First Name: {turn.data.data[0].person.firstName}
+                                          <p className="text-[20px]">
+                                                <b>First Name: </b>
+                                                {turn.data.data[0].person.firstName}
                                           </p>
-                                          <p className="text-[24px]">
-                                                Last Name: {turn.data.data[0].person.lastName}
+                                          <p className="text-[20px]">
+                                                <b>Last Name: </b>
+                                                {turn.data.data[0].person.lastName}
                                           </p>
-                                          <p className="text-[24px]">
-                                                Access Time: {FormatTime(turn.data.data[0].time)}
+                                          {turn.data.data[0].person.masked ? (
+                                                <b className="text-[20px] text-lime-500">Masked</b>
+                                          ) : (
+                                                <b className="text-[20px] text-red-500">
+                                                      No Masked
+                                                </b>
+                                          )}
+                                          <p className="text-[20px]">
+                                                <b>Access Time: </b>
+                                                {FormatTime(turn.data.data[0].time)}
                                           </p>
                                     </div>
                               </div>

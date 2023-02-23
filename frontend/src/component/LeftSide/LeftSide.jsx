@@ -1,43 +1,51 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation } from 'react-router-dom';
-import { FeedIcon } from '../Icon/Icon';
+import {
+      faGear,
+      faHouse,
+      faKeyboard,
+      faUser,
+      faLock,
+      faUsers,
+} from '@fortawesome/free-solid-svg-icons';
 export default function LeftSide(props) {
       const Params = useLocation();
       const { list } = props;
       const FeedData = [
             {
                   id: 1,
-                  Icon: FeedIcon.CameraIcon,
-                  title: 'View DashBoard',
+                  Icon: faHouse,
+                  title: 'Home',
                   link: '/',
             },
             {
                   id: 2,
-                  Icon: FeedIcon.SearchIcon,
-                  title: 'Accquaintace History',
-                  link: '/acchistory',
-            },
-            {
-                  id: 3,
-                  Icon: FeedIcon.SearchIcon,
+                  Icon: faGear,
                   title: 'All history',
                   link: '/allhistory',
             },
             {
+                  id: 3,
+                  Icon: faUsers,
+                  title: 'All People',
+                  link: '/people',
+            },
+            {
                   id: 4,
-                  Icon: FeedIcon.StatisIcon,
+                  Icon: faKeyboard,
                   title: 'Statistical',
                   link: '/statis',
             },
             {
                   id: 5,
-                  Icon: FeedIcon.ProfileIcon,
+                  Icon: faUser,
                   title: 'Profile',
                   link: '/profile',
             },
             {
                   id: 6,
-                  Icon: FeedIcon.ChangePassword,
+                  Icon: faLock,
                   title: 'Change Password',
                   link: '/password',
             },
@@ -61,14 +69,7 @@ export default function LeftSide(props) {
                                           >
                                                 <span className="flex text-center opacity-100 visible relative ">
                                                       <span className="inline-block min-w-[20px] mr-[15px] ">
-                                                            <Feed.Icon
-                                                                  fill={
-                                                                        Params.pathname ===
-                                                                        Feed.link
-                                                                              ? 'white'
-                                                                              : 'black'
-                                                                  }
-                                                            />
+                                                            <FontAwesomeIcon icon={Feed.Icon} />
                                                       </span>
                                                       <span className="text-[14px]">
                                                             {Feed.title}

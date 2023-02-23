@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileInput from '../../component/ProfileInfo/ProfileInput/ProfileInput';
-import { changepassword } from '../../redux/Action/UseAction';
+import { changepassword } from '../../redux/Action/UserAction';
 
 export default function Password() {
       const dispatch = useDispatch();

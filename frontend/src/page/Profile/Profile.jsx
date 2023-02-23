@@ -1,9 +1,6 @@
 import React from 'react';
 import ProfileInfo from '../../component/ProfileInfo/ProfileInfo';
-import { useSelector, useDispatch } from 'react-redux';
 export default function Profile() {
-      const dispatch = useDispatch();
-
       const user = {
             name: 'Hung09092001',
             email: 'admin@gmail.com',

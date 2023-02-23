@@ -1,7 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-      faCoins,
       faEarthAsia,
       faGear,
       faHouse,
@@ -12,9 +11,9 @@ import {
 import { HamburgerIcon, ThreeDotButtonIcon } from '../Icon/Icon';
 import Logo from '../../assets/image/logo.png';
 import Profile from '../../assets/image/profile.jpg';
-import Menu from '../AccoutnItem/Menu/Menu';
+import Menu from '../AccountItem/Menu/Menu';
 import { useDispatch } from 'react-redux';
-import { logout } from '../../redux/Action/UseAction';
+import { logout } from '../../redux/Action/UserAction';
 
 const MENU_ITEMS = [
       {
@@ -57,11 +56,6 @@ export default function Header(props) {
                   to: '/',
             },
             {
-                  icon: <FontAwesomeIcon icon={faCoins} />,
-                  title: 'Accquitance history',
-                  to: '/acchistory',
-            },
-            {
                   icon: <FontAwesomeIcon icon={faGear} />,
                   title: 'All history',
                   to: '/allhistory',
@@ -84,11 +78,11 @@ export default function Header(props) {
             <>
                   <header className="bg-white shadow-4xl fixed top-0 left-0 z-10 w-full h-[69px]">
                         <div className="flex justify-between items-center px-[15px]">
-                              <div className="px-[15px] w-1/6 cursor-pointer flex justify-between items-center">
-                                    <img src={Logo} width={80} alt={'Logo'} className="logo" />
+                              <div className="px-[15px] w-1/6 cursor-pointer flex justify-start items-center">
                                     <div className="" onClick={() => onChange(!list)}>
-                                          <HamburgerIcon className="ml-[50px]" />
+                                          <HamburgerIcon />
                                     </div>
+                                    <img src={Logo} width={80} alt={'Logo'} className="logo" />
                               </div>
                               <div className="flex items-center px-[15px]">
                                     <div className="w-[50px] h-[50px] cursor-pointer">

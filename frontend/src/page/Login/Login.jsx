@@ -5,7 +5,7 @@ import Logo from '../../assets/image/logo.png';
 import { CancelIcon } from '../../component/Icon/Icon';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../redux/Action/UseAction';
+import { login } from '../../redux/Action/UserAction';
 import Warning from '../../component/Warning/Warning';
 export default function Login() {
       const dispatch = useDispatch();

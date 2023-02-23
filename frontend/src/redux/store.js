@@ -3,12 +3,14 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { userChangepassword, userLoginReducer, userRegisterReducer } from './Reducers/UserReducer';
 import { listturnReducer } from './Reducers/TurnReducer';
+import { listPeopleReducer } from './Reducers/PersonReducer';
 
 const reducer = combineReducers({
       userLogin: userLoginReducer,
       userRegister: userRegisterReducer,
       userChangpassword: userChangepassword,
       turnList: listturnReducer,
+      personList: listPeopleReducer,
 });
 
 const userFromLocal = localStorage.getItem('USER')

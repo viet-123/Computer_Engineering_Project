@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import Input from '../../component/Input/Input';
 import Button from '../../component/Button/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../redux/Action/UseAction';
+import { register } from '../../redux/Action/UserAction';
 import Warning from '../../component/Warning/Warning';
 import { CancelIcon, CheckIcon } from '../../component/Icon/Icon';
 export default function Signup() {
