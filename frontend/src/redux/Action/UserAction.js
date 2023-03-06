@@ -23,7 +23,7 @@ export const login = (username, password) => async (dispatch) => {
                   },
             };
             const res = await axios.post(
-                  `http://localhost:8000/api/auth/login`,
+                  `/api/auth/login`,
                   {
                         username,
                         password,
@@ -56,7 +56,7 @@ export const register = (username, password, confirmPassword) => async (dispatch
                   },
             };
             const res = await axios.post(
-                  `http://localhost:8000/api/auth/signup`,
+                  `/api/auth/signup`,
                   {
                         username,
                         password,
@@ -101,7 +101,7 @@ export const changepassword =
                         },
                   };
                   const res = await axios.post(
-                        `http://localhost:8000/api/me/change_password`,
+                        `/api/me/change_password`,
                         {
                               currentPassword,
                               password,

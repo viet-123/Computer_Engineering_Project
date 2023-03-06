@@ -6,24 +6,33 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "start:prod": "SET NODE_ENV=production&nodemon server.js"
+    "build": "ENVIRONMENT=$ENVIRONMENT && webpack --mode=production",
+    "start:prod": "SET NODE_ENV=production && nodemon server.js"
   },
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "bcrypt": "^5.0.1",
+    "aws-sdk": "^2.1324.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-validator": "^6.14.2",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
+    "mock-aws-s3": "^4.0.2",
+    "mongodb": "^5.1.0",
     "mongoose": "^6.5.3",
     "multer": "^1.4.5-lts.1",
+    "nock": "^13.3.0",
+    "node-pre-gyp": "^0.17.0",
     "nodemailer": "^6.7.8"
   },
   "devDependencies": {
-    "nodemon": "^2.0.19"
+    "html-webpack-plugin": "^5.5.0",
+    "nodemon": "^2.0.19",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   }
 }

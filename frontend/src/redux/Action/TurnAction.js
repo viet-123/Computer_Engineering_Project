@@ -18,7 +18,7 @@ export const getallturn = () => async (dispatch, getState) => {
                         'Content-Type': 'application/json',
                   },
             };
-            const res = await axios.get(`http://localhost:8000/api/turn`, config);
+            const res = await axios.get(`/api/turn`, config);
             dispatch({
                   type: TURN_DETAILS_SUCCESS,
                   payload: res.data,

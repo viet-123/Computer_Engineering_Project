@@ -18,7 +18,7 @@ export const getAllPeople = () => async (dispatch, getState) => {
                         'Content-Type': 'application/json',
                   },
             };
-            const res = await axios.get(`http://localhost:8000/api/person`, config);
+            const res = await axios.get(`/api/person`, config);
             dispatch({
                   type: PERSON_DETAILS_SUCCESS,
                   payload: res.data,

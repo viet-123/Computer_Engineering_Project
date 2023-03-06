@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: './.env' });
+if (process.env.ENVIRONMENT !== 'production') {
+  dotenv.config({ path: './.env' });
+}
 
 import app from './src/app.js';
 
@@ -10,8 +12,7 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-// const DB =
-//   'mongodb://thesis:lplsxlAykVxLYM3PUX46fowYontnyM48zUsPmQlmwBHKLlADmg3E7shh4mRn48dxb36jaiZRc61ZACDbUBONxA==@thesis.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@thesis@';
+// const DB = process.env.MONGO_CONNECTION_STRING;
 
 mongoose.connect(DB, {}).then(() => console.log('DB connection successful!'));
 
