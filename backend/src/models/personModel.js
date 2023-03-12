@@ -20,11 +20,11 @@ const personSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-personSchema.virtual('turns', {
-  ref: 'Turn',
-  localField: '_id',
-  foreignField: 'person',
-});
+// personSchema.virtual('turns', {
+//   ref: 'Turn',
+//   localField: '_id',
+//   foreignField: 'person',
+// });
 
 personSchema.set('toObject', { virtuals: true });
 personSchema.set('toJSON', { virtuals: true });

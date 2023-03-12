@@ -14,6 +14,7 @@ import {
 } from '../Constant/personConstant';
 import axios from 'axios';
 export const getAllPeople = () => async (dispatch, getState) => {
+<<<<<<< HEAD
     try {
         dispatch({
             type: PERSON_DETAILS_REQUEST,
@@ -143,4 +144,33 @@ export const addPerson = (firstName, lastName) => async (dispatch, getState) => 
                     : error.message,
         });
     }
+=======
+      try {
+            dispatch({
+                  type: PERSON_DETAILS_REQUEST,
+            });
+            const {
+                  userLogin: { user },
+            } = getState();
+            const config = {
+                  headers: {
+                        Authorization: `Bearer ${user.token}`,
+                        'Content-Type': 'application/json',
+                  },
+            };
+            const res = await axios.get(`/api/person`, config);
+            dispatch({
+                  type: PERSON_DETAILS_SUCCESS,
+                  payload: res.data,
+            });
+      } catch (error) {
+            dispatch({
+                  type: PERSON_DETAILS_FAIL,
+                  payload:
+                        error.response && error.response.data.message
+                              ? error.response.data.message
+                              : error.message,
+            });
+      }
+>>>>>>> fb2f264fef93c07cbab608d9383571c6faaa836b
 };

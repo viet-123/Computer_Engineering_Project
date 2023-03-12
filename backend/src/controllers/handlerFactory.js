@@ -72,6 +72,7 @@ export const getAll = (Model, popOptions) =>
       .sort()
       .limitFields()
       .paginate();
+
     if (popOptions) features.query = features.query.populate(popOptions);
     const doc = await features.query;
 

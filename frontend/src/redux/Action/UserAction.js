@@ -16,6 +16,7 @@ import {
 } from '../Constant/UserConstant';
 
 export const login = (username, password) => async (dispatch) => {
+<<<<<<< HEAD
     try {
         dispatch({
             type: USER_LOGIN_REQUEST,
@@ -80,6 +81,72 @@ export const register = (username, password, confirmPassword) => async (dispatch
                     : error.message,
         });
     }
+=======
+      try {
+            dispatch({
+                  type: USER_LOGIN_REQUEST,
+            });
+            const config = {
+                  headers: {
+                        'Content-Type': 'application/json',
+                  },
+            };
+            const res = await axios.post(
+                  `/api/auth/login`,
+                  {
+                        username,
+                        password,
+                  },
+                  config,
+            );
+            dispatch({
+                  type: USER_LOGIN_SUCCESS,
+                  payload: res.data,
+            });
+      } catch (error) {
+            dispatch({
+                  type: USER_LOGIN_FAIL,
+                  payload:
+                        error.response && error.response.data.message
+                              ? error.response.data.message
+                              : error.message,
+            });
+      }
+};
+
+export const register = (username, password, confirmPassword) => async (dispatch) => {
+      try {
+            dispatch({
+                  type: USER_REGISTER_REQUEST,
+            });
+            const config = {
+                  headers: {
+                        'Content-Type': 'application/json',
+                  },
+            };
+            const res = await axios.post(
+                  `/api/auth/signup`,
+                  {
+                        username,
+                        password,
+                        confirmPassword,
+                  },
+                  config,
+            );
+            dispatch({
+                  type: USER_REGISTER_SUCCESS,
+                  payload: res.data,
+            });
+      } catch (error) {
+            dispatch({
+                  type: USER_REGISTER_FAIL,
+                  payload:
+                        error.response && error.response.data.message
+                              ? error.response.data.message
+                              : error.message,
+            });
+      }
+>>>>>>> fb2f264fef93c07cbab608d9383571c6faaa836b
 };
 
 export const logout = () => async (dispatch) => {
@@ -89,6 +156,7 @@ export const logout = () => async (dispatch) => {
 };
 
 export const changepassword =
+<<<<<<< HEAD
     (currentPassword, password, confirmPassword) => async (dispatch, getState) => {
         try {
             dispatch({
@@ -156,3 +224,42 @@ export const getUserList = () => async (dispatch, getState) => {
         });
     }
 };
+=======
+      (currentPassword, password, confirmPassword) => async (dispatch, getState) => {
+            try {
+                  dispatch({
+                        type: USER_CHANGE_REQUEST,
+                  });
+                  const {
+                        userLogin: { user },
+                  } = getState();
+                  const config = {
+                        headers: {
+                              Authorization: `Bearer ${user.token}`,
+                              'Content-Type': 'application/json',
+                        },
+                  };
+                  const res = await axios.post(
+                        `/api/me/change_password`,
+                        {
+                              currentPassword,
+                              password,
+                              confirmPassword,
+                        },
+                        config,
+                  );
+                  dispatch({
+                        type: USER_CHANGE_SUCCESS,
+                        payload: res.data,
+                  });
+            } catch (error) {
+                  dispatch({
+                        type: USER_CHANGE_FAIL,
+                        payload:
+                              error.response && error.response.data.message
+                                    ? error.response.data.message
+                                    : error.message,
+                  });
+            }
+      };
+>>>>>>> fb2f264fef93c07cbab608d9383571c6faaa836b

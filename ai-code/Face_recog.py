@@ -18,28 +18,29 @@ myList = os.listdir(img_path)
 
 personID = ["63ba69cf61b7276ed162f2ac", "63ba781e63aa6815f52f0dfd", ""]
 
-for subdir, pID in zip(os.listdir(img_path), personID):
-    path = img_path + '/' + subdir
-    path = path + '/'
-    person = "Known/{}_{}".format(subdir, pID)
-    try:
-        shutil.rmtree(person)
-    except:
-        print()
-    os.mkdir(person)
-    count = 1
-    for img in os.listdir(path):
-        img_pic = path + img
-        cur_img = cv2.imread(img_pic)
-        faceLoc = face_recognition.face_locations(cur_img)[0]
-        y1, x2, y2, x1 = faceLoc
-        img_name = person + "/{}_{}".format(subdir, count) + ".jpg"
-        cv2.imwrite(img_name, cur_img[y1:y2, x1:x2])
-        print("{} written!".format(img_name))
-        count += 1
-        class_names.append(subdir)
-        cur_img = cv2.cvtColor(cur_img, cv2.COLOR_BGR2RGB)
-        images.append(cur_img)
+def retrain():
+    for subdir, pID in zip(os.listdir(img_path), personID):
+        path = img_path + '/' + subdir
+        path = path + '/'
+        person = "Known/{}_{}".format(subdir, pID)
+        try:
+            shutil.rmtree(person)
+        except:
+            print()
+        os.mkdir(person)
+        count = 1
+        for img in os.listdir(path):
+            img_pic = path + img
+            cur_img = cv2.imread(img_pic)
+            faceLoc = face_recognition.face_locations(cur_img)[0]
+            y1, x2, y2, x1 = faceLoc
+            img_name = person + "/{}_{}".format(subdir, count) + ".jpg"
+            cv2.imwrite(img_name, cur_img[y1:y2, x1:x2])
+            print("{} written!".format(img_name))
+            count += 1
+            class_names.append(subdir)
+            cur_img = cv2.cvtColor(cur_img, cv2.COLOR_BGR2RGB)
+            images.append(cur_img)
 
 def detect_and_predict_mask(frame, faceNet, maskNet, threshold):
     # grab the dimensions of the frame and then construct a blob
