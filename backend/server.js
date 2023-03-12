@@ -5,6 +5,8 @@ dotenv.config({ path: './.env' });
 
 import app from './src/app.js';
 
+mongoose.set('strictQuery', false);
+
 const DB = process.env.DATABASE.replace(
   '<password>',
   process.env.DATABASE_PASSWORD
