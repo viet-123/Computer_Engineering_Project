@@ -26,6 +26,9 @@ personSchema.virtual('turns', {
   foreignField: 'person',
 });
 
+personSchema.set('toObject', { virtuals: true });
+personSchema.set('toJSON', { virtuals: true });
+
 const Person = mongoose.model('Person', personSchema);
 
 export default Person;

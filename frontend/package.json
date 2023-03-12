@@ -3,6 +3,7 @@
       "version": "0.1.0",
       "private": true,
       "dependencies": {
+            "@azure/storage-blob": "^12.13.0",
             "@emotion/react": "^11.10.5",
             "@emotion/styled": "^11.10.5",
             "@fortawesome/free-solid-svg-icons": "^6.3.0",
@@ -23,11 +24,13 @@
             "react-router-dom": "^6.4.1",
             "react-scripts": "5.0.1",
             "react-select": "^5.7.0",
+            "react-toastify": "^9.1.1",
             "react-webcam": "^7.0.1",
             "redux": "^4.2.0",
             "redux-devtools-extension": "^2.13.9",
             "redux-thunk": "^2.4.1",
             "sass": "^1.55.0",
+            "snake-case": "^3.0.4",
             "web-vitals": "^2.1.4"
       },
       "scripts": {

@@ -15,11 +15,11 @@ import {
 
 const router = express.Router();
 
+router.post('/', validate(validateCreatingPerson), createPerson);
+
 router.use(protect);
 
 router.get('/', getAllPersons);
-
-router.post('/', validate(validateCreatingPerson), createPerson);
 
 router.get('/:id', getPerson);
 
