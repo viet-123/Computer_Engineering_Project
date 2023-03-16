@@ -5,45 +5,43 @@ import DefaultLayout from './component/DefaultLayout';
 import { publicRoutes, privateRoutes } from './routes';
 import { useSelector } from 'react-redux';
 function App() {
-      const currentUser = useSelector((state) => state.userLogin);
-      const Render = (Routes) => {
-            return Routes.map((route, index) => {
-                  const Page = route.component;
-                  let Layout = DefaultLayout;
+    const currentUser = useSelector((state) => state.userLogin);
+    const Render = (Routes) => {
+        return Routes.map((route, index) => {
+            const Page = route.component;
+            let Layout = DefaultLayout;
 
-                  if (route.layout) {
-                        Layout = route.layout;
-                  } else if (route.layout === null) {
-                        Layout = Fragment;
-                  }
+            if (route.layout) {
+                Layout = route.layout;
+            } else if (route.layout === null) {
+                Layout = Fragment;
+            }
 
-                  return (
-                        <Route
-                              key={index}
-                              path={route.path}
-                              element={
-                                    <Layout>
-                                          <Page />
-                                    </Layout>
-                              }
-                        />
-                  );
-            });
-      };
+            return (
+                <Route
+                    key={index}
+                    path={route.path}
+                    element={
+                        <Layout>
+                            <Page />
+                        </Layout>
+                    }
+                />
+            );
+        });
+    };
 
-      return (
-            <>
-                  <div className="App">
-                        <Router>
-                              <Routes>
-                                    {currentUser.user
-                                          ? Render(publicRoutes)
-                                          : Render(privateRoutes)}
-                              </Routes>
-                        </Router>
-                  </div>
-            </>
-      );
+    return (
+        <>
+            <div className="App">
+                <Router>
+                    <Routes>
+                        {currentUser.user ? Render(publicRoutes) : Render(privateRoutes)}
+                    </Routes>
+                </Router>
+            </div>
+        </>
+    );
 }
 
 export default App;
