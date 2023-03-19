@@ -8,6 +8,8 @@ import Signup from '../page/SignUp/Signup';
 import Password from '../page/Password/Password';
 import InfoRegister from '../page/InfoRegister/InfoRegister';
 import UserList from '../page/UserList/UserList';
+import Buildings from '../page/Buildings/Buildings';
+import Cameras from '../page/Cameras/Cameras';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -17,6 +19,8 @@ const publicRoutes = [
     { path: '/password', component: Password },
     { path: '/people', component: People },
     { path: '/userlist', component: UserList },
+    { path: '/building', component: Buildings },
+    { path: '/camera', component: Cameras },
 ];
 
 const privateRoutes = [

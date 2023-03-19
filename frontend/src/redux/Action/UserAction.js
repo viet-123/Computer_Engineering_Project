@@ -26,7 +26,7 @@ export const login = (username, password) => async (dispatch) => {
             },
         };
         const res = await axios.post(
-            `/api/auth/login`,
+            `http://localhost:8000/api/auth/login`,
             {
                 username,
                 password,
@@ -59,7 +59,7 @@ export const register = (username, password, confirmPassword) => async (dispatch
             },
         };
         const res = await axios.post(
-            `/api/auth/signup`,
+            `http://localhost:8000/api/auth/signup`,
             {
                 username,
                 password,
@@ -104,7 +104,7 @@ export const changepassword =
                 },
             };
             const res = await axios.post(
-                `/api/me/change_password`,
+                `http://localhost:8000/api/me/change_password`,
                 {
                     currentPassword,
                     password,
@@ -141,7 +141,7 @@ export const getUserList = () => async (dispatch, getState) => {
                 'Content-Type': 'application/json',
             },
         };
-        const res = await axios.get(`/api/user`, config);
+        const res = await axios.get(`http://localhost:8000/api/user`, config);
         dispatch({
             type: USER_DETAILS_SUCCESS,
             payload: res.data,
