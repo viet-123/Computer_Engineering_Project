@@ -3,7 +3,7 @@ import os
 
 # Define connection string and container name
 connect_str = "DefaultEndpointsProtocol=https;AccountName=test8afa;AccountKey=yGrTX7zMZbCWadHxrK5mkm9yMJ/HwGl93foZ6+eWCQwo6DHCMLCrbPJF5fDPH4gR6slgJLkdRlAE+AStq+aazw==;EndpointSuffix=core.windows.net"
-container_name = "testcontainer"
+container_name = "imagestorage"
 
 # Create the BlobServiceClient object
 blob_service_client = BlobServiceClient.from_connection_string(connect_str)

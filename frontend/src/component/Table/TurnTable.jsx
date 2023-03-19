@@ -45,16 +45,6 @@ export default function TurnTable() {
         }
     }, [buildings]);
 
-    const socket = useRef();
-
-    useEffect(() => {
-        console.log(789);
-        socket.current = io('http://localhost:8000/api/socket');
-        socket.current.on('newTurn', (turn) => {
-            setData((data) => [...data, turn]);
-        });
-    }, []);
-
     const handleLimitChange = (event) => {
         setLimit(event.target.value);
     };

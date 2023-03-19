@@ -29,6 +29,7 @@ connection.once('open', () => {
   turnChangeStream.on('change', async (change) => {
     switch (change.operationType) {
       case 'insert':
+        console.log(123);
         const id = change.fullDocument._id;
 
         const temp = async (id, popOptions) => {
