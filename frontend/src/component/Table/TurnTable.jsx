@@ -2,28 +2,48 @@ import React, { useState, useEffect, useRef } from 'react';
 import { SearchIcon } from '../Icon/Icon';
 import ImgModal from '../Modal/ImgModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getallturn } from '../../redux/Action/TurnAction';
+import { getAllTurns } from '../../redux/Action/TurnAction';
 import { io } from 'socket.io-client';
 import Loading from '../Loading/Loading';
 import date from 'date-and-time';
+import Select from 'react-select';
 import { TablePagination } from '@mui/material';
+import { getAllBuildings } from '../../redux/Action/buildingAction';
 export default function TurnTable() {
     const dispatch = useDispatch();
     const [target, setTarget] = useState(0);
     const [showModal, setShowModal] = useState(false);
-    const turnList = useSelector((state) => state.turnList);
-    const { turn, loading } = turnList;
     const [data, setData] = useState();
+    const [buildingOptions, setBuildingOptions] = useState([{ value: '', label: 'All Buildings' }]);
+    const [building, setBuilding] = useState({ value: '', label: 'All Buildings' });
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(0);
+
+    const { turns, loading } = useSelector((state) => state.turnList);
+    const { buildings } = useSelector((state) => state.buildingList);
 
     useEffect(() => {
-        dispatch(getallturn());
+        dispatch(getAllTurns());
+        dispatch(getAllBuildings());
     }, [dispatch]);
 
     useEffect(() => {
         if (loading) {
-            setData(turn.data.data);
+            setData(turns.data.data);
         }
     }, [loading]);
+
+    useEffect(() => {
+        if (buildings) {
+            setBuildingOptions([{ value: '', label: 'All Buildings' }]);
+            buildings.data.data.forEach((building) =>
+                setBuildingOptions((prev) => [
+                    ...prev,
+                    { value: building._id, label: building.name },
+                ]),
+            );
+        }
+    }, [buildings]);
 
     const socket = useRef();
 
@@ -34,9 +54,6 @@ export default function TurnTable() {
             setData((data) => [...data, turn]);
         });
     }, []);
-
-    const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(0);
 
     const handleLimitChange = (event) => {
         setLimit(event.target.value);
@@ -51,10 +68,28 @@ export default function TurnTable() {
         return date.format(now, 'YYYY/MM/DD HH:mm:ss', true);
     };
 
+    const handleOnChangeBuilding = (choice) => {
+        setBuilding(choice);
+        setPage(0);
+        if (choice.value) {
+            setData(turns.data.data.filter((turn) => turn.building === choice.value));
+        } else {
+            setData(turns.data.data);
+        }
+    };
+
     return (
         <>
             {loading && data !== undefined ? (
                 <div className="shadow-3xl px-[10px] py-[20px] rounded-xl bg-white">
+                    <div className="mb-[20px]" style={{ width: '300px' }}>
+                        <Select
+                            options={buildingOptions}
+                            value={building}
+                            onChange={handleOnChangeBuilding}
+                        />
+                    </div>
+
                     <table className="min-w-full bg-white ">
                         <thead className="border-collapse border">
                             <tr>
@@ -129,7 +164,7 @@ export default function TurnTable() {
                     </table>
                     <TablePagination
                         component="div"
-                        count={turn.data.data.length}
+                        count={data.length}
                         onPageChange={handlePageChange}
                         onRowsPerPageChange={handleLimitChange}
                         page={page}
@@ -139,7 +174,7 @@ export default function TurnTable() {
                     <ImgModal
                         show={showModal}
                         setShow={setShowModal}
-                        image={turn.data.data[target].images}
+                        image={data[target]?.images ? data[target].images : []}
                     />
                 </div>
             ) : (

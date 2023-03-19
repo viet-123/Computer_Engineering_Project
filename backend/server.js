@@ -46,7 +46,7 @@ connection.once('open', () => {
           building: change.fullDocument.building,
           time: change.fullDocument.time,
           isMasked: change.fullDocument.isMasked,
-          images: change.fullDocument.images,
+          images: change.fullDocument.images || [],
         };
 
         io.of('/api/socket').emit('newTurn', turn);

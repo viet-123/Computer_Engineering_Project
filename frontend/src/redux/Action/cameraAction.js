@@ -1,22 +1,23 @@
 import {
-    PERSON_DETAILS_FAIL,
-    PERSON_DETAILS_REQUEST,
-    PERSON_DETAILS_SUCCESS,
-    PERSON_REGISTER_FAIL,
-    PERSON_REGISTER_REQUEST,
-    PERSON_REGISTER_SUCCESS,
-    PERSON_DELETED_FAIL,
-    PERSON_DELETED_REQUEST,
-    PERSON_DELETED_SUCCESS,
-    PERSON_ADDED_FAIL,
-    PERSON_ADDED_REQUEST,
-    PERSON_ADDED_SUCCESS,
-} from '../Constant/personConstant';
+    CAMERA_DETAILS_FAIL,
+    CAMERA_DETAILS_REQUEST,
+    CAMERA_DETAILS_SUCCESS,
+    CAMERA_DELETED_FAIL,
+    CAMERA_DELETED_REQUEST,
+    CAMERA_DELETED_SUCCESS,
+    CAMERA_ADDED_FAIL,
+    CAMERA_ADDED_REQUEST,
+    CAMERA_ADDED_SUCCESS,
+    CAMERA_EDITED_FAIL,
+    CAMERA_EDITED_REQUEST,
+    CAMERA_EDITED_SUCCESS,
+} from '../Constant/cameraConstant';
 import axios from 'axios';
-export const getAllPeople = () => async (dispatch, getState) => {
+
+export const getAllCameras = () => async (dispatch, getState) => {
     try {
         dispatch({
-            type: PERSON_DETAILS_REQUEST,
+            type: CAMERA_DETAILS_REQUEST,
         });
         const {
             userLogin: { user },
@@ -27,14 +28,14 @@ export const getAllPeople = () => async (dispatch, getState) => {
                 'Content-Type': 'application/json',
             },
         };
-        const res = await axios.get(`http://localhost:8000/api/person`, config);
+        const res = await axios.get(`http://localhost:8000/api/camera`, config);
         dispatch({
-            type: PERSON_DETAILS_SUCCESS,
+            type: CAMERA_DETAILS_SUCCESS,
             payload: res.data,
         });
     } catch (error) {
         dispatch({
-            type: PERSON_DETAILS_FAIL,
+            type: CAMERA_DETAILS_FAIL,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message
@@ -43,43 +44,10 @@ export const getAllPeople = () => async (dispatch, getState) => {
     }
 };
 
-export const personRegister = (firstName, lastName) => async (dispatch) => {
+export const deleteCamera = (cameraId) => async (dispatch, getState) => {
     try {
         dispatch({
-            type: PERSON_REGISTER_REQUEST,
-        });
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        };
-        const res = await axios.post(
-            `http://localhost:8000/api/person`,
-            {
-                firstName,
-                lastName,
-            },
-            config,
-        );
-        dispatch({
-            type: PERSON_REGISTER_SUCCESS,
-            payload: res.data,
-        });
-    } catch (error) {
-        dispatch({
-            type: PERSON_REGISTER_FAIL,
-            payload:
-                error.response && error.response.data.message
-                    ? error.response.data.message
-                    : error.message,
-        });
-    }
-};
-
-export const deletePerson = (personId) => async (dispatch, getState) => {
-    try {
-        dispatch({
-            type: PERSON_DELETED_REQUEST,
+            type: CAMERA_DELETED_REQUEST,
         });
         const {
             userLogin: { user },
@@ -91,14 +59,14 @@ export const deletePerson = (personId) => async (dispatch, getState) => {
                 'Content-Type': 'application/json',
             },
         };
-        const res = await axios.delete(`http://localhost:8000/api/person/${personId}`, config);
+        const res = await axios.delete(`http://localhost:8000/api/camera/${cameraId}`, config);
         dispatch({
-            type: PERSON_DELETED_SUCCESS,
+            type: CAMERA_DELETED_SUCCESS,
             payload: res.data,
         });
     } catch (error) {
         dispatch({
-            type: PERSON_DELETED_FAIL,
+            type: CAMERA_DELETED_FAIL,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message
@@ -107,10 +75,10 @@ export const deletePerson = (personId) => async (dispatch, getState) => {
     }
 };
 
-export const addPerson = (firstName, lastName) => async (dispatch, getState) => {
+export const addCamera = (ip, building, description) => async (dispatch, getState) => {
     try {
         dispatch({
-            type: PERSON_ADDED_REQUEST,
+            type: CAMERA_ADDED_REQUEST,
         });
         const {
             userLogin: { user },
@@ -123,20 +91,60 @@ export const addPerson = (firstName, lastName) => async (dispatch, getState) => 
             },
         };
         const res = await axios.post(
-            `http://localhost:8000/api/person`,
+            `http://localhost:8000/api/camera`,
             {
-                firstName,
-                lastName,
+                ip,
+                building,
+                description,
             },
             config,
         );
         dispatch({
-            type: PERSON_ADDED_SUCCESS,
+            type: CAMERA_ADDED_SUCCESS,
             payload: res.data,
         });
     } catch (error) {
         dispatch({
-            type: PERSON_ADDED_FAIL,
+            type: CAMERA_ADDED_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const editCamera = (id, ip, building, description) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: CAMERA_EDITED_REQUEST,
+        });
+        const {
+            userLogin: { user },
+        } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+                'Content-Type': 'application/json',
+            },
+        };
+        const res = await axios.patch(
+            `http://localhost:8000/api/camera/${id}`,
+            {
+                ip,
+                building,
+                description,
+            },
+            config,
+        );
+        dispatch({
+            type: CAMERA_EDITED_SUCCESS,
+            payload: res.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: CAMERA_EDITED_FAIL,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message

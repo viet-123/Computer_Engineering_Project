@@ -2,12 +2,15 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation } from 'react-router-dom';
 import {
-    faGear,
     faHouse,
-    faKeyboard,
+    faSignal,
     faUser,
     faLock,
     faUsers,
+    faPeopleGroup,
+    faBuilding,
+    faCamera,
+    faClockRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 export default function LeftSide(props) {
     const Params = useLocation();
@@ -21,36 +24,48 @@ export default function LeftSide(props) {
         },
         {
             id: 2,
-            Icon: faGear,
-            title: 'All history',
+            Icon: faClockRotateLeft,
+            title: 'History',
             link: '/allhistory',
         },
         {
             id: 3,
-            Icon: faUsers,
+            Icon: faPeopleGroup,
             title: 'All People',
             link: '/people',
         },
         {
             id: 4,
-            Icon: faKeyboard,
+            Icon: faSignal,
             title: 'Statistical',
             link: '/statis',
         },
         {
-            id: 3,
+            id: 5,
             Icon: faUsers,
-            title: 'All User',
+            title: 'All Users',
             link: '/userlist',
         },
         {
-            id: 5,
+            id: 6,
+            Icon: faBuilding,
+            title: 'All Buildings',
+            link: '/building',
+        },
+        {
+            id: 7,
+            Icon: faCamera,
+            title: 'All Cameras',
+            link: '/camera',
+        },
+        {
+            id: 8,
             Icon: faUser,
             title: 'Profile',
             link: '/profile',
         },
         {
-            id: 6,
+            id: 9,
             Icon: faLock,
             title: 'Change Password',
             link: '/password',

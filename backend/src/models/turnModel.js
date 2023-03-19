@@ -7,6 +7,11 @@ const turnSchema = new mongoose.Schema(
       default: null,
       ref: 'Person',
     },
+    building: {
+      type: mongoose.Schema.ObjectId,
+      default: null,
+      ref: 'Building',
+    },
     time: {
       type: Date,
       required: true,
