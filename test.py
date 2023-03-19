@@ -11,6 +11,7 @@ blob_service_client = BlobServiceClient.from_connection_string(connection_string
 
 # Download new or updated blobs every 10 seconds
 while True:
+    print("Waiting image from blod ...")
     # Get a list of blobs in the container
     container_client = blob_service_client.get_container_client(container_name)
     blob_list = container_client.list_blobs()

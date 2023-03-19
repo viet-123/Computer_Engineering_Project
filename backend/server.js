@@ -13,7 +13,6 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-// const DB = process.env.MONGO_CONNECTION_STRING;
 mongoose.set('strictQuery', false);
 mongoose.connect(DB, {}).then(() => console.log('DB connection successful!'));
 
@@ -25,9 +24,9 @@ connection.once('open', () => {
   console.log('MongoDB database connected');
 
   console.log('Setting change streams');
-  const thoughtChangeStream = connection.collection('turns').watch();
+  const turnChangeStream = connection.collection('turns').watch();
 
-  thoughtChangeStream.on('change', async (change) => {
+  turnChangeStream.on('change', async (change) => {
     switch (change.operationType) {
       case 'insert':
         const id = change.fullDocument._id;
@@ -44,6 +43,7 @@ connection.once('open', () => {
         const turn = {
           _id: change.fullDocument._id,
           person: result.person,
+          building: change.fullDocument.building,
           time: change.fullDocument.time,
           isMasked: change.fullDocument.isMasked,
           images: change.fullDocument.images,
