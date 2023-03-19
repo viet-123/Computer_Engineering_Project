@@ -4,7 +4,6 @@ import History from '../page/History/History';
 import People from '../page/People/People';
 import Statistical from '../page/Statistical/Statistical';
 import Login from '../page/Login/Login';
-import Signup from '../page/SignUp/Signup';
 import Password from '../page/Password/Password';
 import InfoRegister from '../page/InfoRegister/InfoRegister';
 import UserList from '../page/UserList/UserList';
@@ -25,7 +24,6 @@ const publicRoutes = [
 
 const privateRoutes = [
     { path: '/', component: Login, layout: null },
-    { path: '/signup', component: Signup, layout: null },
     { path: '/inforegister', component: InfoRegister, layout: null },
 ];
 

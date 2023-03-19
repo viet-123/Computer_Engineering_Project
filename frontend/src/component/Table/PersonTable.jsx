@@ -19,7 +19,8 @@ import { TablePagination } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+
 export default function PersonTable() {
     const storageURL = 'https://test8afa.blob.core.windows.net/testcontainer/';
     const dispatch = useDispatch();
