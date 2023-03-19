@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllTurns } from '../../redux/Action/TurnAction';
 import { getAllBuildings } from '../../redux/Action/buildingAction';
+import { io } from 'socket.io-client';
 import Loading from '../../component/Loading/Loading';
 import date from 'date-and-time';
 import Webcam from 'react-webcam';
@@ -24,6 +25,7 @@ export default function Home() {
     const turns = turnList.turns;
     const turnLoading = turnList.loading;
     const { buildings, loading } = useSelector((state) => state.buildingList);
+    const socket = useRef();
 
     useEffect(() => {
         dispatch(getAllBuildings());
@@ -34,6 +36,21 @@ export default function Home() {
             setData(turns.data.data);
         }
     }, [turns, loading]);
+
+    useEffect(() => {
+        socket.current = io('http://localhost:8000/api/socket');
+    }, []);
+
+    useEffect(() => {
+        console.log(789);
+        socket.current.on('newTurn', (turn) => {
+            console.log(turn.building);
+            console.log(building);
+            if (turn.building === building?.value) {
+                setData((data) => [turn, ...data]);
+            }
+        });
+    }, [building]);
 
     useEffect(() => {
         if (buildings) {
