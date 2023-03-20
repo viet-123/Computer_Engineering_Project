@@ -57,8 +57,8 @@ class Control:
 
     def addTurn(self, imgUrl, Personid, Status):
         timeEvent = datetime.now()
-        newTurn = {
-            "person": bson.ObjectId(Personid),
+        if Personid == 0:
+            newTurn = {
             "time": timeEvent,
             "isMasked": Status,
             "images": imgUrl,
@@ -66,6 +66,17 @@ class Control:
             "updateAt": timeEvent,
             "__v": 0
         }
+        else:   
+            newTurn = {
+                "person": bson.ObjectId(Personid),
+                "time": timeEvent,
+                "isMasked": Status,
+                "images": imgUrl,
+                "createAt": timeEvent,
+                "updateAt": timeEvent,
+                "__v": 0
+            }
+            
         print(newTurn)
         print("ADD NEW TURN\n")
         turns.insert_one(newTurn)
