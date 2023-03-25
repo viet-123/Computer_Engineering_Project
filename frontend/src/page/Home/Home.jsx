@@ -149,8 +149,14 @@ export default function Home() {
                                                 className="rounded-lg border-2 w-100 flex bg-cyan-100 p-[5px] my-[5px]"
                                                 key={index}
                                             >
-                                                <div className="w-[30%]"></div>
-                                                <div className="w-[70%]">
+                                                <div className="w-[30%] py-[5px] flex justify-center">
+                                                    <img
+                                                        className="w-[70%]"
+                                                        src={data[0].images[0]}
+                                                        alt=""
+                                                    />
+                                                </div>
+                                                <div>
                                                     <p>
                                                         {data[0].person
                                                             ? data[0].person.firstName +
@@ -171,7 +177,13 @@ export default function Home() {
                                                 className="rounded-lg border-2 w-100 flex p-[5px] my-[5px] mx-[5px]"
                                                 key={index}
                                             >
-                                                <div className="w-[30%]"></div>
+                                                <div className="w-[30%] py-[5px] flex justify-center">
+                                                    <img
+                                                        className="w-[70%]"
+                                                        src={turn.images[0]}
+                                                        alt=""
+                                                    />
+                                                </div>
                                                 <div className="w-[70%]">
                                                     <p>
                                                         {turn.person

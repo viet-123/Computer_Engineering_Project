@@ -3,7 +3,6 @@ import { SearchIcon } from '../Icon/Icon';
 import ImgModal from '../Modal/ImgModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllTurns } from '../../redux/Action/TurnAction';
-import { io } from 'socket.io-client';
 import Loading from '../Loading/Loading';
 import date from 'date-and-time';
 import Select from 'react-select';
