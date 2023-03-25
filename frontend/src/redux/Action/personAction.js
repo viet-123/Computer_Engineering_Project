@@ -27,7 +27,7 @@ export const getAllPeople = () => async (dispatch, getState) => {
                 'Content-Type': 'application/json',
             },
         };
-        const res = await axios.get(`http://localhost:8000/api/person`, config);
+        const res = await axios.get(`/api/person`, config);
         dispatch({
             type: PERSON_DETAILS_SUCCESS,
             payload: res.data,
@@ -54,7 +54,7 @@ export const personRegister = (firstName, lastName) => async (dispatch) => {
             },
         };
         const res = await axios.post(
-            `http://localhost:8000/api/person`,
+            `/api/person`,
             {
                 firstName,
                 lastName,
@@ -91,7 +91,7 @@ export const deletePerson = (personId) => async (dispatch, getState) => {
                 'Content-Type': 'application/json',
             },
         };
-        const res = await axios.delete(`http://localhost:8000/api/person/${personId}`, config);
+        const res = await axios.delete(`/api/person/${personId}`, config);
         dispatch({
             type: PERSON_DELETED_SUCCESS,
             payload: res.data,
@@ -123,7 +123,7 @@ export const addPerson = (firstName, lastName) => async (dispatch, getState) => 
             },
         };
         const res = await axios.post(
-            `http://localhost:8000/api/person`,
+            `/api/person`,
             {
                 firstName,
                 lastName,

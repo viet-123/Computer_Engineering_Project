@@ -38,7 +38,7 @@ export default function Home() {
     }, [turns, loading]);
 
     useEffect(() => {
-        socket.current = io('http://localhost:8000/api/socket');
+        socket.current = io('/api/socket');
     }, []);
 
     useEffect(() => {
@@ -96,7 +96,7 @@ export default function Home() {
     const handlePageChange = (event, newPage) => {
         setPage(newPage);
     };
-
+    console.log(data);
     return (
         <>
             {loading ? (
@@ -172,7 +172,13 @@ export default function Home() {
                                                 className="rounded-lg border-2 w-100 flex p-[5px] my-[5px] mx-[5px]"
                                                 key={index}
                                             >
-                                                <div className="w-[30%]"></div>
+                                                <div className="w-[30%]">
+                                                    {/* <img
+                                                        src={data.images[0]}
+                                                        alt="#"
+                                                        className="w-100"
+                                                    /> */}
+                                                </div>
                                                 <div className="w-[70%]">
                                                     <p>
                                                         {turn.person

@@ -28,7 +28,7 @@ export const getAllBuildings = () => async (dispatch, getState) => {
                 'Content-Type': 'application/json',
             },
         };
-        const res = await axios.get(`http://localhost:8000/api/building`, config);
+        const res = await axios.get(`/api/building`, config);
         dispatch({
             type: BUILDING_DETAILS_SUCCESS,
             payload: res.data,
@@ -59,7 +59,7 @@ export const deleteBuilding = (buildingId) => async (dispatch, getState) => {
                 'Content-Type': 'application/json',
             },
         };
-        const res = await axios.delete(`http://localhost:8000/api/building/${buildingId}`, config);
+        const res = await axios.delete(`/api/building/${buildingId}`, config);
         dispatch({
             type: BUILDING_DELETED_SUCCESS,
             payload: res.data,
@@ -91,7 +91,7 @@ export const addBuilding = (name, description) => async (dispatch, getState) => 
             },
         };
         const res = await axios.post(
-            `http://localhost:8000/api/building`,
+            `/api/building`,
             {
                 name,
                 description,
@@ -129,7 +129,7 @@ export const editBuilding = (id, name, description) => async (dispatch, getState
             },
         };
         const res = await axios.patch(
-            `http://localhost:8000/api/building/${id}`,
+            `/api/building/${id}`,
             {
                 name,
                 description,

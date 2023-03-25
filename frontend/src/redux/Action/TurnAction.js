@@ -24,7 +24,7 @@ export const getAllTurns =
                 },
             };
             const res = await axios.get(
-                `http://localhost:8000/api/turn${building ? '?building=' + building : ''}`,
+                `/api/turn${building ? '?building=' + building : ''}`,
                 config,
             );
             dispatch({
@@ -62,12 +62,9 @@ export const statisticalTurn = () => async (dispatch, getState) => {
         const year = currentDate.getFullYear();
 
         const [res1, res2] = await Promise.all([
+            axios.get(`/api/turn/stats?day=${date}&month=${month}&year=${year}&type=daily`, config),
             axios.get(
-                `http://localhost:8000/api/turn/stats?day=${date}&month=${month}&year=${year}&type=daily`,
-                config,
-            ),
-            axios.get(
-                `http://localhost:8000/api/turn/stats?day=${date}&month=${month}&year=${year}&type=monthly`,
+                `/api/turn/stats?day=${date}&month=${month}&year=${year}&type=monthly`,
                 config,
             ),
         ]);

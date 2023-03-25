@@ -28,7 +28,7 @@ export const getAllCameras = () => async (dispatch, getState) => {
                 'Content-Type': 'application/json',
             },
         };
-        const res = await axios.get(`http://localhost:8000/api/camera`, config);
+        const res = await axios.get(`/api/camera`, config);
         dispatch({
             type: CAMERA_DETAILS_SUCCESS,
             payload: res.data,
@@ -59,7 +59,7 @@ export const deleteCamera = (cameraId) => async (dispatch, getState) => {
                 'Content-Type': 'application/json',
             },
         };
-        const res = await axios.delete(`http://localhost:8000/api/camera/${cameraId}`, config);
+        const res = await axios.delete(`/api/camera/${cameraId}`, config);
         dispatch({
             type: CAMERA_DELETED_SUCCESS,
             payload: res.data,
@@ -91,7 +91,7 @@ export const addCamera = (ip, building, description) => async (dispatch, getStat
             },
         };
         const res = await axios.post(
-            `http://localhost:8000/api/camera`,
+            `/api/camera`,
             {
                 ip,
                 building,
@@ -130,7 +130,7 @@ export const editCamera = (id, ip, building, description) => async (dispatch, ge
             },
         };
         const res = await axios.patch(
-            `http://localhost:8000/api/camera/${id}`,
+            `/api/camera/${id}`,
             {
                 ip,
                 building,
