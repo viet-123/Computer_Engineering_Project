@@ -8,6 +8,8 @@ if (process.env.ENVIRONMENT !== 'production') {
 
 import app from './src/app.js';
 
+mongoose.set('strictQuery', false);
+
 const DB = process.env.DATABASE.replace(
   '<password>',
   process.env.DATABASE_PASSWORD
