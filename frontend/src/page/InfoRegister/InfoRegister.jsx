@@ -50,14 +50,14 @@ export default function InforRegister() {
         else return toast.error(message);
     };
 
-    const getFile = (lastName, personId) => {
+    const getFile = (firstName, personId) => {
         img.forEach((src, index) => {
             fetch(src)
                 .then((res) => res.blob())
                 .then((blob) => {
                     const file = new File(
                         [blob],
-                        `${snakeCase(lastName)}-${personId}-${index + 1}.png`,
+                        `${snakeCase(firstName)}-${personId}-${index + 1}.png`,
                         blob,
                     );
                     uploadImage(file);
@@ -105,7 +105,7 @@ export default function InforRegister() {
     }, [person]);
 
     const completeRegister = () => {
-        getFile(input.lastName, person.data.data._id);
+        getFile(input.firstName, person.data.data._id);
         notify('success', 'Register identity information successfully!');
         setInput({ firstName: '', lastName: '' });
         setTimeInterval(5);

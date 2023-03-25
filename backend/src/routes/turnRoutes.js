@@ -16,11 +16,11 @@ import {
 
 const router = express.Router();
 
+router.post('/', validate(validateCreatingTurn), createTurn);
+
 router.use(protect);
 
 router.get('/', getAllTurns);
-
-router.post('/', validate(validateCreatingTurn), createTurn);
 
 router.get('/stats', statsTurn);
 

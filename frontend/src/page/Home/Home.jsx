@@ -20,6 +20,7 @@ export default function Home() {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
     const [showCamera, setShowCamera] = useState(false);
+    const [removePrevState, setRemovePrevState] = useState(true);
 
     const turnList = useSelector((state) => state.turnList);
     const turns = turnList.turns;
@@ -32,20 +33,17 @@ export default function Home() {
     }, [dispatch]);
 
     useEffect(() => {
-        if (turns) {
+        if (turns && !removePrevState) {
             setData(turns.data.data);
         }
-    }, [turns, loading]);
+    }, [turns]);
 
     useEffect(() => {
         socket.current = io('/api/socket');
     }, []);
 
     useEffect(() => {
-        console.log(789);
         socket.current.on('newTurn', (turn) => {
-            console.log(turn.building);
-            console.log(building);
             if (turn.building === building?.value) {
                 setData((data) => [turn, ...data]);
             }
@@ -78,6 +76,7 @@ export default function Home() {
         setBuilding(choice);
         setCamera('');
         if (choice) {
+            if (removePrevState) setRemovePrevState(false);
             dispatch(getAllTurns(choice.value));
             setDisableCameraSelect(false);
             setCameraOptions([]);

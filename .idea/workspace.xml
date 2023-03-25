@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c586360f-eadd-45d9-9886-24b110d005b2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/ai-code/Face_recog.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai-code/Face_recog.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-code/Known/Phat_63ba69cf61b7276ed162f2ac/Phat_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-code/Known/Phat_63ba69cf61b7276ed162f2ac/Phat_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-code/Known/Viet_63ba781e63aa6815f52f0dfd/Viet_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-code/Known/Viet_63ba781e63aa6815f52f0dfd/Viet_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-code/Known/Viet_63ba781e63aa6815f52f0dfd/Viet_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2NE0GWjQBAkhgrVwX2rwa6ouEM9" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Computer_Engineering_Project",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c586360f-eadd-45d9-9886-24b110d005b2" name="Changes" comment="" />
+      <created>1679213840741</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679213840741</updated>
+    </task>
+    <servers />
+  </component>
+</project>
