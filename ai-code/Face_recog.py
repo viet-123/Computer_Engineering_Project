@@ -18,8 +18,8 @@ encode_list_cl = []
 myList = os.listdir(img_path)
 
     
-
 def retrain():
+    AzureDb.downloadImage("")
     for subdir in os.listdir(img_path):
         path = img_path + '/' + subdir
         path = path + '/'
@@ -37,13 +37,17 @@ def retrain():
         for img in os.listdir(path):
             img_pic = path + img
             cur_img = cv2.imread(img_pic)
-            faceLoc = face_recognition.face_locations(cur_img)[0]
+            try:
+                faceLoc = face_recognition.face_locations(cur_img)[0]
+            except:
+                faceLoc = (0,0,0,0)
+                
             y1, x2, y2, x1 = faceLoc
-            
             
             img_name = person + "/{}_{}".format(username, count) + ".png"
             cv2.imwrite(os.getcwd() + "//ai-code//" + img_name, cur_img[y1:y2, x1:x2])
             print("{} written!".format(img_name))
+            AzureDb.uploadImage("", os.getcwd() + "//ai-code//" + img_name)
             count += 1
             
             cur_img = cv2.cvtColor(cur_img, cv2.COLOR_BGR2RGB)
@@ -136,6 +140,7 @@ arrU = []
 lastName = ""
 curName = ""
 retrain()
+fps_start_time = 0
 encodeListKnown = find_encodings(images)
 while True:
     key = cv2.waitKey(1) & 0xFF
@@ -211,6 +216,13 @@ while True:
                 cv2.rectangle(img, (x1, y2 - 35), (x2, y2), color, cv2.FILLED)
                 cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
                 cv2.putText(img, label, (x1, y2 + 10), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 0, 255), 2)
+                
+                fps_end_time = time.time()
+                fps = 1 / (fps_end_time - fps_start_time) # access FPS property
+                fps_start_time = fps_end_time
+                fps_text = "FPS: {:.2f}".format(fps)
+                font = cv2.FONT_HERSHEY_SIMPLEX  #font to apply on text
+                cv2.putText(img, fps_text, (50, 50), font, 1, (0, 0, 255), 2) # add text on frame
         except:
             print("")
 
