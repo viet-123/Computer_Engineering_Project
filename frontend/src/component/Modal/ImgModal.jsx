@@ -6,20 +6,16 @@ function ImgModal(props, ref) {
     const { show, setShow, image } = props;
     return (
         <div>
-            <ModalContent
-                show={show}
-                setShow={setShow}
-                // hideCloseButton
-            >
+            <ModalContent show={show} setShow={setShow}>
                 <ModalHeader>
                     <h2>Image Details</h2>
                 </ModalHeader>
                 <ModalBody>
-                    <div className="w-100 flex flex-col">
-                        <div className="px-[20px] w-100">
-                            <img src={image[0]} className="w-100" alt="#" />
+                    <div className="w-100 flex flex-col px-[50px]">
+                        <div className="w-100">
+                            <img src={image[0]} className="w-full" alt="#" />
                         </div>
-                        <div className="flex flex-row px-[20px] w-100 mt-1">
+                        <div className="flex flex-row w-100 mt-1">
                             <img src={image[1]} className="w-3/6 pr-1" alt="#" />
                             <img src={image[2]} className="w-3/6" alt="#" />
                         </div>

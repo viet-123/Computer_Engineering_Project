@@ -2,13 +2,12 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { Server } from 'socket.io';
 import Turn from './src/models/turnModel.js';
+
 if (process.env.ENVIRONMENT !== 'production') {
   dotenv.config({ path: './.env' });
 }
 
 import app from './src/app.js';
-
-mongoose.set('strictQuery', false);
 
 const DB = process.env.DATABASE.replace(
   '<password>',
@@ -62,9 +61,7 @@ connection.once('open', () => {
   });
 });
 
-const server = app.listen(process.env.PORT, () =>
-  console.log(`Server started on ${process.env.PORT}`)
-);
+const server = app.listen(port, () => console.log(`Server started on ${port}`));
 
 const io = new Server(server, {
   cors: {

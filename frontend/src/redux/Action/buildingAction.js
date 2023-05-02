@@ -11,6 +11,9 @@ import {
     BUILDING_EDITED_FAIL,
     BUILDING_EDITED_REQUEST,
     BUILDING_EDITED_SUCCESS,
+    BUILDING_MANAGED_FAIL,
+    BUILDING_MANAGED_REQUEST,
+    BUILDING_MANAGED_SUCCESS,
 } from '../Constant/buildingConstant';
 import axios from 'axios';
 
@@ -36,6 +39,42 @@ export const getAllBuildings = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: BUILDING_DETAILS_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const getManagedBuildings = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: BUILDING_MANAGED_REQUEST,
+        });
+        const {
+            userLogin: { user },
+        } = getState();
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+                'Content-Type': 'application/json',
+            },
+        };
+        const res = await axios.get(`http://localhost:8000/api/building`, config);
+
+        if (user.data.user.role !== 'admin') {
+            const buildings = user.data.user.buildings ? user.data.user.buildings : [];
+            res.data.data.data = res.data.data.data.filter((el) => buildings.includes(el._id));
+        }
+
+        dispatch({
+            type: BUILDING_MANAGED_SUCCESS,
+            payload: res.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: BUILDING_MANAGED_FAIL,
             payload:
                 error.response && error.response.data.message
                     ? error.response.data.message

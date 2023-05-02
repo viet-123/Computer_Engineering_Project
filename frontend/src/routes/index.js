@@ -17,6 +17,17 @@ const publicRoutes = [
     { path: '/statis', component: Statistical },
     { path: '/password', component: Password },
     { path: '/people', component: People },
+    { path: '/building', component: Buildings },
+    { path: '/camera', component: Cameras },
+];
+
+const adminPublicRoutes = [
+    { path: '/', component: Home },
+    { path: '/profile', component: Profile },
+    { path: '/allhistory', component: History },
+    { path: '/statis', component: Statistical },
+    { path: '/password', component: Password },
+    { path: '/people', component: People },
     { path: '/userlist', component: UserList },
     { path: '/building', component: Buildings },
     { path: '/camera', component: Cameras },
@@ -27,4 +38,4 @@ const privateRoutes = [
     { path: '/inforegister', component: InfoRegister, layout: null },
 ];
 
-export { publicRoutes, privateRoutes };
+export { publicRoutes, adminPublicRoutes, privateRoutes };

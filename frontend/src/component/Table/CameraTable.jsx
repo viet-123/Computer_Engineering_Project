@@ -39,6 +39,7 @@ export default function CameraTable() {
     const [showError, setShowError] = useState(false);
     const [selectOptions, setSelectOptions] = useState([]);
 
+    const { role } = useSelector((state) => state.userLogin).user.data.user;
     const { cameras, loading } = useSelector((state) => state.cameraList);
     const { buildings } = useSelector((state) => state.buildingList);
 
@@ -144,9 +145,11 @@ export default function CameraTable() {
         setShowError(false);
         setTarget(e.currentTarget.dataset.index);
         setInput({
-            ip: cameras.data.data[target].ip,
-            building: selectOptions.find((el) => el.value === cameras.data.data[target].building),
-            description: cameras.data.data[target].description,
+            ip: cameras.data.data[e.currentTarget.dataset.index].ip,
+            building: selectOptions.find(
+                (el) => el.value === cameras.data.data[e.currentTarget.dataset.index].building,
+            ),
+            description: cameras.data.data[e.currentTarget.dataset.index].description,
         });
         setShowEditCameraModal(true);
     };
@@ -205,19 +208,24 @@ export default function CameraTable() {
         <>
             {loading ? (
                 <div className="shadow-3xl px-[10px] py-[20px] rounded-xl bg-white">
-                    <div className="flex justify-end">
-                        <Button
-                            bgColor="bg-[#5c60f5]"
-                            tColor="text-white"
-                            title="Add new camera"
-                            onClick={handleOpenAddUserModal}
-                        />
-                    </div>
+                    {role === 'admin' ? (
+                        <div className="flex justify-end">
+                            <Button
+                                bgColor="bg-[#5c60f5]"
+                                tColor="text-white"
+                                title="Add new camera"
+                                onClick={handleOpenAddUserModal}
+                            />
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+
                     <table className="min-w-full bg-white mt-[20px] ">
                         <thead className="border-collapse border">
                             <tr>
                                 <th className="w-[10%] border text-center py-[15px] px-2  font-semibold text-sm">
-                                    Ordinal number
+                                    #
                                 </th>
                                 <th className="w-[20%] border text-center py-[15px] px-2 font-semibold text-sm">
                                     IP address
@@ -228,12 +236,19 @@ export default function CameraTable() {
                                 <th className="w-[20%] border text-center py-[15px] px-2 font-semibold text-sm">
                                     Description
                                 </th>
-                                <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
-                                    Edit camera
-                                </th>
-                                <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
-                                    Delete camera
-                                </th>
+                                {role === 'admin' ? (
+                                    <>
+                                        {' '}
+                                        <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
+                                            Edit camera
+                                        </th>
+                                        <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
+                                            Delete camera
+                                        </th>
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
                             </tr>
                         </thead>
                         <tbody>
@@ -262,28 +277,41 @@ export default function CameraTable() {
                                             <td className="w-[20%] border text-center py-[15px] px-2 text-sm">
                                                 {camera.description}
                                             </td>
-                                            <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm">
-                                                <div className="w-full flex justify-center ">
-                                                    <div
-                                                        className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
-                                                        data-index={index}
-                                                        onClick={handleOpenEditCameraModal}
-                                                    >
-                                                        <FontAwesomeIcon icon={faPenToSquare} />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="w-[1 0%] border text-center items-center py-[15px] px-2 text-sm">
-                                                <div className="w-full flex justify-center ">
-                                                    <div
-                                                        className="bg-[#fa0000] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
-                                                        data-index={index}
-                                                        onClick={handleOpenDeleteCameraModal}
-                                                    >
-                                                        <FontAwesomeIcon icon={faTrashCan} />
-                                                    </div>
-                                                </div>
-                                            </td>
+                                            {role === 'admin' ? (
+                                                <>
+                                                    {' '}
+                                                    <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm">
+                                                        <div className="w-full flex justify-center ">
+                                                            <div
+                                                                className="bg-sky-500 cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
+                                                                data-index={index}
+                                                                onClick={handleOpenEditCameraModal}
+                                                            >
+                                                                <FontAwesomeIcon
+                                                                    icon={faPenToSquare}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="w-[1 0%] border text-center items-center py-[15px] px-2 text-sm">
+                                                        <div className="w-full flex justify-center ">
+                                                            <div
+                                                                className="bg-[#fa0000] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
+                                                                data-index={index}
+                                                                onClick={
+                                                                    handleOpenDeleteCameraModal
+                                                                }
+                                                            >
+                                                                <FontAwesomeIcon
+                                                                    icon={faTrashCan}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </tr>
                                     );
                                 })}

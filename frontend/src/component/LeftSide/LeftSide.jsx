@@ -1,6 +1,7 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faHouse,
     faSignal,
@@ -14,6 +15,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 export default function LeftSide(props) {
     const Params = useLocation();
+
+    const { role } = useSelector((state) => state.userLogin).user.data.user;
+
     const { list } = props;
     const FeedData = [
         {
@@ -42,18 +46,12 @@ export default function LeftSide(props) {
         },
         {
             id: 5,
-            Icon: faUsers,
-            title: 'All Users',
-            link: '/userlist',
-        },
-        {
-            id: 6,
             Icon: faBuilding,
             title: 'All Buildings',
             link: '/building',
         },
         {
-            id: 7,
+            id: 6,
             Icon: faCamera,
             title: 'All Cameras',
             link: '/camera',
@@ -71,6 +69,16 @@ export default function LeftSide(props) {
             link: '/password',
         },
     ];
+
+    if (role === 'admin') {
+        FeedData.splice(6, 0, {
+            id: 5,
+            Icon: faUsers,
+            title: 'All Users',
+            link: '/userlist',
+        });
+    }
+
     return (
         <>
             <div

@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Chart } from '../../component/Chart/Chart';
 import Information from '../../component/Information/Information';
 import Select from 'react-select';
+import FadeLoader from 'react-spinners/FadeLoader';
 import { statisticalTurn } from '../../redux/Action/TurnAction';
-import Loading from '../../component/Loading/Loading';
+import { getManagedBuildings } from '../../redux/Action/buildingAction';
 
 export default function Statistical() {
     const chartOptions = {
@@ -45,36 +46,40 @@ export default function Statistical() {
 
     const dispatch = useDispatch();
     const { stats, loading } = useSelector((state) => state.turnStats);
-    const [dailyStats, setDailyStats] = useState(null);
-    const [monthlyStats, setMonthlyStats] = useState(null);
     const [selected, setSelected] = useState({ value: 'daily', label: 'Daily' });
     const [barData, setBarData] = useState(exampleBarData);
-    const [currentStats, setCurrentStats] = useState(null);
     const [dataNumber, setDataNumber] = useState({
         total: 0,
         unknown: 0,
         noMasked: 0,
     });
+    const [buildingOptions, setBuildingOptions] = useState([{ value: '', label: 'All buildings' }]);
+    const [building, setBuilding] = useState({ value: '', label: 'All buildings' });
+
+    const { buildings } = useSelector((state) => state.buildingManaged);
 
     const handleChange = (selectedOption) => {
         setSelected(selectedOption);
     };
 
     useEffect(() => {
-        dispatch(statisticalTurn());
+        dispatch(getManagedBuildings());
     }, [dispatch]);
 
     useEffect(() => {
+        dispatch(statisticalTurn(selected.value, building.value));
+    }, [building, selected]);
+
+    useEffect(() => {
         if (stats) {
-            console.log(stats, selected.value);
             const calBar = (name) => {
-                return stats[selected.value].data.labels.map((label) => {
-                    const obj = stats[selected.value].data[name].find((el) => el._id === label);
+                return stats.data.labels.map((label) => {
+                    const obj = stats.data[name].find((el) => el._id === label);
                     return obj ? obj.numTurnStats : 0;
                 });
             };
             setBarData({
-                labels: stats[selected.value].data.labels,
+                labels: stats.data.labels,
                 datasets: [
                     {
                         label: 'Number of arrivals',
@@ -100,7 +105,20 @@ export default function Statistical() {
             });
             console.log(dataNumber);
         }
-    }, [selected, stats]);
+    }, [stats]);
+
+    useEffect(() => {
+        if (buildings) {
+            setBuildingOptions([{ value: '', label: 'All buildings' }]);
+            buildings.data.data.forEach((building) =>
+                setBuildingOptions((prev) => [
+                    ...prev,
+                    { value: building._id, label: building.name },
+                ]),
+            );
+        }
+    }, [buildings]);
+
     const options = [
         { value: 'daily', label: 'Daily' },
         { value: 'monthly', label: 'Monthly' },
@@ -109,18 +127,28 @@ export default function Statistical() {
     return (
         <>
             <h1 className="font-normal text-[36px] mb-[10px]">Statistical</h1>
-            {loading ? (
-                <div className="rounded-xl shadow-3xl px-[40px] bg-white py-[40px] h-[90%]">
+            <div className="rounded-xl shadow-3xl px-[40px] bg-white py-[40px] h-[90%]">
+                <div className="flex">
+                    <Select
+                        options={buildingOptions}
+                        value={building}
+                        onChange={(choice) => setBuilding(choice)}
+                        className="w-[200px] mr-[10px]"
+                    />
                     <Select
                         options={options}
-                        className="w-80"
                         defaultValue={selected}
                         onChange={handleChange}
+                        className="w-[200px]"
                     />
+                </div>
+
+                {loading ? (
                     <div className="mt-[20px]">
                         <p className=" text-[20px] mb-[10px]">
                             Statistics of the number of arrivals of{' '}
-                            {selected.value === 'daily' ? 'today' : 'this month'}
+                            {selected.value === 'daily' ? 'today' : 'this month'} at{' '}
+                            {!building.value ? 'all buildings' : 'building ' + building.label}
                         </p>
                         <div className="grid grid-cols-3">
                             <Information
@@ -144,15 +172,23 @@ export default function Statistical() {
                         <div className="w-full mt-[20px]">
                             <p className=" text-[20px] mb-[10px]">
                                 Statistics of the number of arrivals in the last 3{' '}
-                                {selected.value === 'daily' ? 'days' : 'months'}
+                                {selected.value === 'daily' ? 'days' : 'months'} at{' '}
+                                {!building.value ? 'all buildings' : 'building ' + building.label}
                             </p>
                             <Chart type="barChart" data={barData} options={chartOptions} />
                         </div>
                     </div>
-                </div>
-            ) : (
-                <Loading></Loading>
-            )}
+                ) : (
+                    <div>
+                        <FadeLoader
+                            color="#36d7b7"
+                            cssOverride={{ display: 'block', margin: '200px auto' }}
+                            loading={true}
+                            size={200}
+                        />
+                    </div>
+                )}
+            </div>
         </>
     );
 }

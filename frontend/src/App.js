@@ -2,10 +2,12 @@ import './App.css';
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DefaultLayout from './component/DefaultLayout';
-import { publicRoutes, privateRoutes } from './routes';
+import { publicRoutes, privateRoutes, adminPublicRoutes } from './routes';
 import { useSelector } from 'react-redux';
 function App() {
     const currentUser = useSelector((state) => state.userLogin);
+    const role = currentUser.user?.data.user.role;
+
     const Render = (Routes) => {
         return Routes.map((route, index) => {
             const Page = route.component;
@@ -36,7 +38,11 @@ function App() {
             <div className="App">
                 <Router>
                     <Routes>
-                        {currentUser.user ? Render(publicRoutes) : Render(privateRoutes)}
+                        {currentUser.user
+                            ? role === 'admin'
+                                ? Render(adminPublicRoutes)
+                                : Render(publicRoutes)
+                            : Render(privateRoutes)}
                     </Routes>
                 </Router>
             </div>

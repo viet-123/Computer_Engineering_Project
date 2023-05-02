@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { snakeCase } from 'snake-case';
 import { BlobServiceClient } from '@azure/storage-blob';
+import Logo from '../../assets/image/logo.png';
 
 export default function InforRegister() {
     const dispatch = useDispatch();
@@ -136,6 +137,9 @@ export default function InforRegister() {
             <div className="fixed top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] lg:w-5/12 mx-auto bg-[#f6f6f6] rounded w-full ">
                 <div className="md:px-[90px] px-[10px] pb-[40px] pt-[30px] flex justify-center w-full flex-col">
                     <div className="mb-[32px] text-center items-center">
+                        <div className="flex justify-center">
+                            <img src={Logo} width="200" alt="" />
+                        </div>
                         <h1 className="font-bold text-[28px] text-[#16192c]">
                             Register identity information
                         </h1>

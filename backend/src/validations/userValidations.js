@@ -1,6 +1,10 @@
 import { check } from 'express-validator';
 import User from '../models/userModel.js';
-import { checkString, checkUniqueString } from './validationFactory.js';
+import {
+  checkString,
+  checkUniqueString,
+  checkOptionalString,
+} from './validationFactory.js';
 
 const checkConfirmPassword = () => async (req, res, next) => {
   const { password, confirmPassword } = req.body;
@@ -21,12 +25,9 @@ const checkConfirmPassword = () => async (req, res, next) => {
 
 export const validateCreatingUser = () => [
   checkUniqueString('username', 6, User),
+  checkString('fullName', 6),
   checkString('password', 6),
   checkConfirmPassword(),
 ];
 
-export const validateUpdatingUser = () => [
-  checkUniqueString('username', 6, User),
-  checkUniqueString('password', 6),
-  checkConfirmPassword(),
-];
+export const validateUpdatingUser = () => [checkOptionalString('fullName', 6)];

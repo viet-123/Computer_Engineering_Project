@@ -14,6 +14,16 @@ const userSchema = new mongoose.Schema(
       minLength: 6,
       select: false,
     },
+    fullName: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ['manager', 'admin'],
+      default: 'manager',
+    },
+    buildings: [{ type: mongoose.Types.ObjectId, ref: 'Building' }],
     passwordChangedAt: Date,
   },
   { timestamps: true }

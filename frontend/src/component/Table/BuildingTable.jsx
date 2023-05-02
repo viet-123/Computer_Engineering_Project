@@ -35,6 +35,7 @@ export default function BuildingTable() {
     });
     const [showError, setShowError] = useState(false);
 
+    const { role } = useSelector((state) => state.userLogin).user.data.user;
     const { buildings, loading } = useSelector((state) => state.buildingList);
 
     const buildingDeleted = useSelector((state) => state.buildingDeleted);
@@ -117,8 +118,10 @@ export default function BuildingTable() {
 
     const handleOpenEditBuildingModal = (e) => {
         setTarget(e.currentTarget.dataset.index);
-        input.name = buildings.data.data[target].name;
-        input.description = buildings.data.data[target].description;
+        setInput({
+            name: buildings.data.data[e.currentTarget.dataset.index].name,
+            description: buildings.data.data[e.currentTarget.dataset.index].description,
+        });
         setShowEditBuildingModal(true);
     };
 
@@ -169,19 +172,24 @@ export default function BuildingTable() {
         <>
             {loading ? (
                 <div className="shadow-3xl px-[10px] py-[20px] rounded-xl bg-white">
-                    <div className="flex justify-end">
-                        <Button
-                            bgColor="bg-[#5c60f5]"
-                            tColor="text-white"
-                            title="Add new building"
-                            onClick={handleOpenAddBuildingModal}
-                        />
-                    </div>
+                    {role === 'admin' ? (
+                        <div className="flex justify-end">
+                            <Button
+                                bgColor="bg-[#5c60f5]"
+                                tColor="text-white"
+                                title="Add new building"
+                                onClick={handleOpenAddBuildingModal}
+                            />
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+
                     <table className="min-w-full bg-white mt-[20px] ">
                         <thead className="border-collapse border">
                             <tr>
                                 <th className="w-[10%] border text-center py-[15px] px-2  font-semibold text-sm">
-                                    Ordinal number
+                                    #
                                 </th>
                                 <th className="w-[20%] border text-center py-[15px] px-2 font-semibold text-sm">
                                     Name
@@ -189,12 +197,19 @@ export default function BuildingTable() {
                                 <th className="w-[20%] border text-center py-[15px] px-2 font-semibold text-sm">
                                     Description
                                 </th>
-                                <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
-                                    Edit building
-                                </th>
-                                <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
-                                    Delete building
-                                </th>
+                                {role === 'admin' ? (
+                                    <>
+                                        {' '}
+                                        <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
+                                            Edit building
+                                        </th>
+                                        <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
+                                            Delete building
+                                        </th>
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
                             </tr>
                         </thead>
                         <tbody>
@@ -215,28 +230,43 @@ export default function BuildingTable() {
                                             <td className="w-[20%] border text-center py-[15px] px-2 text-sm">
                                                 {building.description}
                                             </td>
-                                            <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm">
-                                                <div className="w-full flex justify-center ">
-                                                    <div
-                                                        className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
-                                                        data-index={index}
-                                                        onClick={handleOpenEditBuildingModal}
-                                                    >
-                                                        <FontAwesomeIcon icon={faPenToSquare} />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="w-[1 0%] border text-center items-center py-[15px] px-2 text-sm">
-                                                <div className="w-full flex justify-center ">
-                                                    <div
-                                                        className="bg-[#fa0000] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
-                                                        data-index={index}
-                                                        onClick={handleOpenDeleteBuildingModal}
-                                                    >
-                                                        <FontAwesomeIcon icon={faTrashCan} />
-                                                    </div>
-                                                </div>
-                                            </td>
+                                            {role === 'admin' ? (
+                                                <>
+                                                    {' '}
+                                                    <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm">
+                                                        <div className="w-full flex justify-center ">
+                                                            <div
+                                                                className="bg-sky-500 cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
+                                                                data-index={index}
+                                                                onClick={
+                                                                    handleOpenEditBuildingModal
+                                                                }
+                                                            >
+                                                                <FontAwesomeIcon
+                                                                    icon={faPenToSquare}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="w-[1 0%] border text-center items-center py-[15px] px-2 text-sm">
+                                                        <div className="w-full flex justify-center ">
+                                                            <div
+                                                                className="bg-[#fa0000] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
+                                                                data-index={index}
+                                                                onClick={
+                                                                    handleOpenDeleteBuildingModal
+                                                                }
+                                                            >
+                                                                <FontAwesomeIcon
+                                                                    icon={faTrashCan}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </tr>
                                     );
                                 })}

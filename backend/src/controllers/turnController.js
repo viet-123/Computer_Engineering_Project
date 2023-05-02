@@ -1,4 +1,5 @@
 import date from 'date-and-time';
+import mongoose from 'mongoose';
 import {
   deleteOne,
   updateOne,
@@ -9,7 +10,7 @@ import {
 import Turn from '../models/turnModel.js';
 import catchAsync from '../utils/catchAsync.js';
 
-export const getAllTurns = getAll(Turn, 'person');
+export const getAllTurns = getAll(Turn, 'person', 'building');
 
 export const getTurn = getOne(Turn, 'person');
 
@@ -32,6 +33,9 @@ export const statsTurn = catchAsync(async (req, res, next) => {
   const month = req.query.month * 1;
   const day = req.query.day * 1;
   const type = req.query.type; // 'daily' or 'monthly'
+  const buildingFilter = req.query.building
+    ? { building: { $eq: mongoose.Types.ObjectId(req.query.building) } }
+    : {};
   const currentDate = new Date(`${year}-${month}-${day}`);
   const statsTurn = (filters, group) =>
     Turn.aggregate([
@@ -97,10 +101,15 @@ export const statsTurn = catchAsync(async (req, res, next) => {
     group = { $dateToString: { format: '%Y-%m-%d', date: '$time' } };
   }
   const filtersTotal = {
-    time: {
-      $gte: startDate,
-      $lte: endDate,
-    },
+    $and: [
+      {
+        time: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+      },
+      buildingFilter,
+    ],
   };
   const filtersUnknown = {
     $and: [
@@ -111,6 +120,7 @@ export const statsTurn = catchAsync(async (req, res, next) => {
         },
       },
       { person: { $eq: null } },
+      buildingFilter,
     ],
   };
   const filtersNoMasked = {
@@ -122,6 +132,7 @@ export const statsTurn = catchAsync(async (req, res, next) => {
         },
       },
       { isMasked: { $eq: false } },
+      buildingFilter,
     ],
   };
   const [statsTotal, statsUnknown, statsNoMasked] = await Promise.all([

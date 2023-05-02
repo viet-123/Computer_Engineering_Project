@@ -48,7 +48,7 @@ export default function Login() {
                     )}
                     <Input ref={email} label="Username" placeholder="Your Username" type="text" />
                     <Input ref={password} label="Password" placeholder="Password" type="password" />
-                    <div className="mb-[20px] ">
+                    {/* <div className="mb-[20px] ">
                         <div className="pl-[24px] min-h-[26px] ">
                             <input
                                 type="checkbox"
@@ -58,7 +58,7 @@ export default function Login() {
                                 Keep me logged
                             </label>
                         </div>
-                    </div>
+                    </div> */}
                     <Button
                         onClick={handelLogin}
                         bgColor="bg-[#5c60f5]"

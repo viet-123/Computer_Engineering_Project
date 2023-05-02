@@ -1,11 +1,15 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { legacy_createStore as createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {
     userChangepassword,
     userLoginReducer,
+    userInfoUpdatedReducer,
     userRegisterReducer,
     userListReducer,
+    userAddedReducer,
+    userEditedReducer,
+    userDeletedReducer,
 } from './Reducers/UserReducer';
 import { turnListReducer, turnStatsReducer } from './Reducers/TurnReducer';
 import {
@@ -19,6 +23,7 @@ import {
     buildingDeletedReducer,
     buildingEditedReducer,
     buildingListReducer,
+    buildingManagedReducer,
 } from './Reducers/BuildingReducer';
 import {
     cameraAddedReducer,
@@ -30,8 +35,12 @@ import {
 const reducer = combineReducers({
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
+    userInfoUpdated: userInfoUpdatedReducer,
     userChangpassword: userChangepassword,
     userList: userListReducer,
+    userAdded: userAddedReducer,
+    userEdited: userEditedReducer,
+    userDeleted: userDeletedReducer,
     turnList: turnListReducer,
     turnStats: turnStatsReducer,
     personList: listPeopleReducer,
@@ -39,6 +48,7 @@ const reducer = combineReducers({
     personDeleted: personDeletedReducer,
     personAdded: personAddedReducer,
     buildingList: buildingListReducer,
+    buildingManaged: buildingManagedReducer,
     buildingAdded: buildingAddedReducer,
     buildingDeleted: buildingDeletedReducer,
     buildingEdited: buildingEditedReducer,

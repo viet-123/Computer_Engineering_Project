@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllTurns } from '../../redux/Action/TurnAction';
-import { getAllBuildings } from '../../redux/Action/buildingAction';
+import { getManagedBuildings } from '../../redux/Action/buildingAction';
 import { io } from 'socket.io-client';
 import Loading from '../../component/Loading/Loading';
 import date from 'date-and-time';
@@ -25,11 +25,11 @@ export default function Home() {
     const turnList = useSelector((state) => state.turnList);
     const turns = turnList.turns;
     const turnLoading = turnList.loading;
-    const { buildings, loading } = useSelector((state) => state.buildingList);
+    const { buildings, loading } = useSelector((state) => state.buildingManaged);
     const socket = useRef();
 
     useEffect(() => {
-        dispatch(getAllBuildings());
+        dispatch(getManagedBuildings());
     }, [dispatch]);
 
     useEffect(() => {

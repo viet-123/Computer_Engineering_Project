@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { SearchIcon } from '../Icon/Icon';
 import ImgModal from '../Modal/ImgModal';
 import ModalContent, {
     ModalBody,
@@ -20,12 +19,13 @@ import { TablePagination } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan, faXmark, faEye } from '@fortawesome/free-solid-svg-icons';
 import { BlobServiceClient } from '@azure/storage-blob';
 
 export default function PersonTable() {
     const storageURL = 'https://test8afa.blob.core.windows.net/testcontainer/';
     const dispatch = useDispatch();
+    const [data, setData] = useState([]);
     const [target, setTarget] = useState(0);
     const [showImgModal, setShowImgModal] = useState(false);
     const [showAddPersonModal, setShowAddPersonModal] = useState(false);
@@ -41,6 +41,7 @@ export default function PersonTable() {
     const [img, setImg] = useState([]);
     const [step, setStep] = useState(0);
     const [imgUpload, setImgUpload] = useState([]);
+    const [searchString, setSearchString] = useState('');
 
     const { people, loading } = useSelector((state) => state.personList);
 
@@ -56,6 +57,12 @@ export default function PersonTable() {
     useEffect(() => {
         dispatch(getAllPeople());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (loading) {
+            setData(people.data.data);
+        }
+    }, [loading]);
 
     const handleLimitChange = (event) => {
         setLimit(event.target.value);
@@ -231,11 +238,33 @@ export default function PersonTable() {
         });
     };
 
+    useEffect(() => {
+        if (people) {
+            var result = people.data.data;
+            result = result.filter((person) => {
+                return (person.firstName + ' ' + person.lastName)
+                    .toLowerCase()
+                    .includes(searchString.toLowerCase());
+            });
+            setData(result);
+        }
+        setPage(0);
+    }, [searchString]);
+
     return (
         <>
             {loading ? (
                 <div className="shadow-3xl px-[10px] py-[20px] rounded-xl bg-white">
-                    <div className="flex justify-end">
+                    <div className="flex justify-between">
+                        <div className="w-[300px]">
+                            <input
+                                className="w-full py-[6px] px-[20px] text-[16px] font-normal text-[#16192c] bg-white border-solid border border-[#e7eaf0] rounded-md
+          shadow-blue-blur focus:shadow-blue-focus focus:outline-none"
+                                placeholder="Search by name"
+                                value={searchString}
+                                onChange={(e) => setSearchString(e.target.value)}
+                            />
+                        </div>
                         <Button
                             bgColor="bg-[#5c60f5]"
                             tColor="text-white"
@@ -247,7 +276,7 @@ export default function PersonTable() {
                         <thead className="border-collapse border">
                             <tr>
                                 <th className="w-[10%] border text-center py-[15px] px-2  font-semibold text-sm">
-                                    Ordinal number
+                                    #
                                 </th>
                                 <th className="w-[20%] border text-center py-[15px] px-2 font-semibold text-sm">
                                     First Name
@@ -270,50 +299,43 @@ export default function PersonTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {people.data.data
-                                .slice(limit * page, limit * page + limit)
-                                .map((person, index) => {
-                                    return (
-                                        <tr
-                                            className={index % 2 ? 'bg-white' : 'bg-[#f5f6ff]'}
-                                            key={index}
-                                        >
-                                            <td className="w-[10%] border text-center py-[15px] px-2  text-sm">
-                                                {index + 1}
-                                            </td>
-                                            <td className="w-[20%] border text-center py-[15px] px-2 text-sm">
-                                                {person.firstName}
-                                            </td>
-                                            <td className="w-[20%] border text-center py-[15px] px-2 text-sm">
-                                                {person.lastName}
-                                            </td>
-                                            <td className="w-[20%] border text-center py-[15px] px-2 text-sm">
-                                                {!person.turns?.length
-                                                    ? 'No access'
-                                                    : formatTime(
-                                                          person.turns[person.turns.length - 1]
-                                                              .time,
-                                                      )}
-                                            </td>
-                                            <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm">
-                                                <div className="w-full flex justify-center ">
-                                                    <div
-                                                        className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full "
-                                                        data-index={index}
-                                                        onClick={handleOpenImgModal}
-                                                    >
-                                                        <SearchIcon
-                                                            fill={'white'}
-                                                            width={'16px'}
-                                                            height={'16px'}
-                                                        />
-                                                    </div>
+                            {data.slice(limit * page, limit * page + limit).map((person, index) => {
+                                return (
+                                    <tr
+                                        className={index % 2 ? 'bg-white' : 'bg-[#f5f6ff]'}
+                                        key={index}
+                                    >
+                                        <td className="w-[10%] border text-center py-[15px] px-2  text-sm">
+                                            {index + 1}
+                                        </td>
+                                        <td className="w-[20%] border text-center py-[15px] px-2 text-sm">
+                                            {person.firstName}
+                                        </td>
+                                        <td className="w-[20%] border text-center py-[15px] px-2 text-sm">
+                                            {person.lastName}
+                                        </td>
+                                        <td className="w-[20%] border text-center py-[15px] px-2 text-sm">
+                                            {!person.turns?.length
+                                                ? 'No access'
+                                                : formatTime(
+                                                      person.turns[person.turns.length - 1].time,
+                                                  )}
+                                        </td>
+                                        <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm">
+                                            <div className="w-full flex justify-center ">
+                                                <div
+                                                    className="bg-lime-500 cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
+                                                    data-index={index}
+                                                    onClick={handleOpenImgModal}
+                                                >
+                                                    <FontAwesomeIcon icon={faEye} />
                                                 </div>
-                                            </td>
-                                            {/* <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm">
+                                            </div>
+                                        </td>
+                                        {/* <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm">
                                                 <div className="w-full flex justify-center ">
                                                     <div
-                                                        className="bg-[#4a4fb0] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
+                                                        className="bg-[#5c60f5] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
                                                         data-index={index}
                                                         onClick={handleOpenEditUserModal}
                                                     >
@@ -321,20 +343,20 @@ export default function PersonTable() {
                                                     </div>
                                                 </div>
                                             </td> */}
-                                            <td className="w-[1 0%] border text-center items-center py-[15px] px-2 text-sm">
-                                                <div className="w-full flex justify-center ">
-                                                    <div
-                                                        className="bg-[#fa0000] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
-                                                        data-index={index}
-                                                        onClick={handleOpenDeletePersonModal}
-                                                    >
-                                                        <FontAwesomeIcon icon={faTrashCan} />
-                                                    </div>
+                                        <td className="w-[1 0%] border text-center items-center py-[15px] px-2 text-sm">
+                                            <div className="w-full flex justify-center ">
+                                                <div
+                                                    className="bg-[#fa0000] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
+                                                    data-index={index}
+                                                    onClick={handleOpenDeletePersonModal}
+                                                >
+                                                    <FontAwesomeIcon icon={faTrashCan} />
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                     <TablePagination
