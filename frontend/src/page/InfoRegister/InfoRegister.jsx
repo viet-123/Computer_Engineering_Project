@@ -24,6 +24,7 @@ export default function InforRegister() {
     const [step, setStep] = useState(1);
     const [timeInterval, setTimeInterval] = useState(5);
     const [showError, setShowError] = useState(false);
+    let currentImg = img.length + 1;
 
     const personDetail = useSelector((state) => state.personRegister);
     const { person } = personDetail;
@@ -71,13 +72,93 @@ export default function InforRegister() {
         setInput({ ...input, [name]: value });
     };
 
-    const capture = () => {
-        const imgSrc = webcamRef.current.getScreenshot();
-        setImg((prevState) => {
-            if (prevState.length < 3) {
-                return [...prevState, imgSrc];
-            } else return prevState;
-        });
+    const capture = (imgLength) => {
+        let imgSrc = '';
+        switch (imgLength) {
+            case 0:
+                imgSrc = webcamRef.current.getScreenshot();
+                fetch(imgSrc)
+                    .then((res) => res.blob())
+                    .then((blob) => {
+                        const file = new File([blob], `test.png`, blob);
+                        //Turn your face to the left
+                        fetch('http://127.0.0.1:8000/api/uploadfile', {
+                            body: file,
+                            headers: {
+                                'Content-Type': 'image/png',
+                            },
+                            method: 'POST',
+                        }).then((res) => {
+                            if (res.status === 200) {
+                                console.log(1);
+                                setImg((prevState) => {
+                                    if (prevState.length < 3) {
+                                        return [...prevState, imgSrc];
+                                    } else return prevState;
+                                });
+                            } else {
+                                notify('error', 'The photo is not valid, please retake it!');
+                            }
+                        });
+                    });
+                break;
+            case 1:
+                imgSrc = webcamRef.current.getScreenshot();
+                fetch(imgSrc)
+                    .then((res) => res.blob())
+                    .then((blob) => {
+                        const file = new File([blob], `test.png`, blob);
+                        //Turn your face to the right
+                        fetch('http://127.0.0.1:8000/api/uploadfile', {
+                            body: file,
+                            headers: {
+                                'Content-Type': 'image/png',
+                            },
+                            method: 'POST',
+                        }).then((res) => {
+                            if (res.status === 200) {
+                                console.log(2);
+                                setImg((prevState) => {
+                                    if (prevState.length < 3) {
+                                        return [...prevState, imgSrc];
+                                    } else return prevState;
+                                });
+                            } else {
+                                notify('error', 'The photo is not valid, please retake it!');
+                            }
+                        });
+                    });
+                break;
+            case 2:
+                imgSrc = webcamRef.current.getScreenshot();
+                fetch(imgSrc)
+                    .then((res) => res.blob())
+                    .then((blob) => {
+                        const file = new File([blob], `test.png`, blob);
+                        //Looking straight at the camera
+                        fetch('http://127.0.0.1:8000/api/uploadfile', {
+                            body: file,
+                            headers: {
+                                'Content-Type': 'image/png',
+                            },
+                            method: 'POST',
+                        }).then((res) => {
+                            if (res.status === 200) {
+                                console.log(3);
+                                setImg((prevState) => {
+                                    if (prevState.length < 3) {
+                                        return [...prevState, imgSrc];
+                                    } else return prevState;
+                                });
+                            } else {
+                                notify('error', 'The photo is not valid, please retake it!');
+                            }
+                        });
+                    });
+                break;
+            default:
+            // code block
+        }
     };
 
     const validateInput = (name) => {
@@ -116,11 +197,11 @@ export default function InforRegister() {
     };
 
     useEffect(() => {
-        if (step === 2) {
+        if (step === 2 && img.length < 3) {
             var interval = setInterval(() => {
                 setTimeInterval((prevTime) => {
                     if (prevTime === 1) {
-                        capture();
+                        capture(img.length);
                         return 5;
                     } else return prevTime - 1;
                 });
@@ -130,7 +211,7 @@ export default function InforRegister() {
             setTimeInterval(5);
             clearInterval(interval);
         };
-    }, [step]);
+    }, [step, img]);
 
     if (step === 1)
         return (
@@ -189,9 +270,6 @@ export default function InforRegister() {
                         <h1 className="font-bold text-[28px] text-[#16192c]">
                             Register user information
                         </h1>
-                        <p className="mt-[8px] text-[#525f7f] text-[20px]">
-                            Please keep your face in the center of the camera
-                        </p>
                     </div>
                     <Webcam ref={webcamRef} />
 
@@ -203,6 +281,15 @@ export default function InforRegister() {
                         <></>
                     )}
 
+                    <p className="mt-[8px] text-[#525f7f] text-[20px] text-center">
+                        {img.length === 0
+                            ? 'Please turn your face to the left!'
+                            : img.length === 1
+                            ? 'Please turn your face to the right!'
+                            : img.length === 2
+                            ? 'Please looking straight at the camera!'
+                            : ''}
+                    </p>
                     <p className="mt-[8px] text-[18px] text-center">Taken {img.length} / 3</p>
 
                     <div className="flex w-full mt-[8px]">
@@ -238,7 +325,7 @@ export default function InforRegister() {
                         <></>
                     )}
                 </div>
-                <ToastContainer autoClose={5000} />
+                <ToastContainer autoClose={3000} />
             </div>
         );
     }

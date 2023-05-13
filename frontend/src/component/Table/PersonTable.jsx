@@ -518,7 +518,7 @@ export default function PersonTable() {
 
                     <ModalContent show={showDeletePersonModal} setShow={setShowDeletePersonModal}>
                         <ModalHeader>
-                            <h2>Delete user</h2>
+                            <h2>Delete person</h2>
                         </ModalHeader>
                         <ModalBody>
                             <h2 className="italic">Do you want to delete this person?</h2>
